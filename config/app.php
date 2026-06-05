@@ -124,6 +124,8 @@ return [
 
     'key' => env('APP_KEY'),
 
+    'gemini_key' => env('GEMINI_API_KEY'),
+
     'cipher' => 'AES-256-CBC',
 
     /*

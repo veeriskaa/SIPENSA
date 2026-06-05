@@ -9,6 +9,7 @@ use App\Http\Controllers\SiswaDashboardController;
 use App\Http\Controllers\GuruUserController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\AnalisisController;
+use App\Http\Controllers\ChatbotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,9 +50,8 @@ Route::middleware(['auth'])->group(function () {
     | CHATBOT
     |--------------------------------------------------------------------------
     */
-    Route::get('/chatbot', function () {
-        return view('siswa.chatbot');
-    });
+    Route::get('/chatbot', [ChatbotController::class, 'index']);
+    Route::post('/chatbot/chat', [ChatbotController::class, 'chat']);
 
     /*
     |--------------------------------------------------------------------------
