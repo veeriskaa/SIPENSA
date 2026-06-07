@@ -8,231 +8,227 @@
 
 <title>@yield('title','Dashboard Guru BK')</title>
 
+<link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Suez+One&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Suez+One&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
 
-/* =========================================================
-   ROOT
-========================================================= */
-
 :root{
-    --green: #0b6b27;
-    --green-dark: #064d14;
-    --green-mid: #0b6b1c;
-    --navbar-height: 72px;
-    --sidebar-width: 245px;
+    --green: #0a7f2e;
+    --green-dark: #064e1d;
+    --bg: #f5f7fa;
+    --surface: #ffffff;
+    --border: #e9edf2;
+    --text: #1f2937;
+    --text-soft: #6b7280;
+    --shadow: 0 1px 2px rgba(15,23,42,.03), 0 8px 24px rgba(15,23,42,.04);
+    --sidebar-width: 260px;
+    --navbar-height: 70px;
 }
 
-/* =========================================================
-   RESET
-========================================================= */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+html, body { height: 100%; overflow: hidden; }
 
-html, body{
-    height: 100%;
-    overflow: hidden;
-}
-
-/* =========================================================
-   BODY
-========================================================= */
-
-body{
-    background: #f4f7fb;
-    font-family: 'Inter', sans-serif;
-    color: #111827;
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
 }
 
 /* =========================================================
    NAVBAR
 ========================================================= */
-
-.navbar{
-    height: var(--navbar-height);
-
-    background: linear-gradient(135deg, #0b6b27, #0f7a2d);
-
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-
-    z-index: 1100;
-
-    display: flex;
-    align-items: center;
-
-    box-shadow: 0 2px 15px rgba(0,0,0,.06);
-
-    padding: 0 16px;
+.brand-font {
+    font-family: 'Suez One', serif;
+    font-size: 22px;
 }
 
-.navbar-brand{
+.navbar {
+    height: var(--navbar-height);
+    background: linear-gradient(135deg, #0b6b27, #0f7a2d);
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1100;
+    padding: 0 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
     display: flex;
     align-items: center;
-    gap: 12px;
+}
 
-    color: white !important;
-
-    font-family: 'Suez One', serif;
-    font-size: 20px;
-
-    text-decoration: none;
-
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     cursor: pointer;
     user-select: none;
+    color: white !important;
+    text-decoration: none !important;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
 }
 
-.navbar-brand img{
-    width: 42px;
-    flex-shrink: 0;
+.navbar-brand:hover,
+.navbar-brand:focus,
+.navbar-brand:active,
+.navbar-brand:visited {
+    color: white !important;
+    text-decoration: none !important;
+    background: none !important;
 }
 
-.navbar-brand span{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+.navbar-brand span { color: white !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.navbar a { color: white !important; }
 
 /* =========================================================
-   OVERLAY
+   LAYOUT
 ========================================================= */
-
-.sidebar-overlay{
-    display: none;
-
+.layout-body {
     position: fixed;
-    inset: 0;
-
-    background: rgba(0,0,0,.45);
-
-    z-index: 1080;
-}
-
-.sidebar-overlay.show{
-    display: block;
+    top: var(--navbar-height);
+    left: 0; right: 0; bottom: 0;
+    display: flex;
+    overflow: hidden;
 }
 
 /* =========================================================
    SIDEBAR
 ========================================================= */
-
-.sidebar{
+.sidebar {
     width: var(--sidebar-width);
-
-    position: fixed;
-
-    top: var(--navbar-height);
-    left: 0;
-    bottom: 0;
-
-    background: linear-gradient(180deg, var(--green-mid), var(--green-dark));
-
+    flex-shrink: 0;
+    background: linear-gradient(180deg, #0a7f2e, #064e1d);
+    color: white;
+    padding: 22px 18px;
+    overflow-y: auto;
+    transition: width .3s ease;
+    z-index: 10;
     display: flex;
     flex-direction: column;
-
-    z-index: 1095;
-
-    transition: left .3s ease, width .3s ease;
 }
 
-/* Desktop collapsed */
-.sidebar.collapsed{
-    left: calc(-1 * var(--sidebar-width));
-}
+.sidebar.collapsed { width: 0; padding: 0; overflow: hidden; }
 
-/* SCROLLBAR */
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 20px; }
 
-.sidebar-menu{
+/* =========================================================
+   CONTENT
+========================================================= */
+.content {
     flex: 1;
     overflow-y: auto;
-    padding: 18px 14px;
+    overflow-x: hidden;
+    padding: 22px;
+    background: var(--bg);
+    min-width: 0;
 }
 
-.sidebar-menu::-webkit-scrollbar{
-    width: 4px;
-}
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 20px; }
+.content > *:last-child { margin-bottom: 40px; }
 
-.sidebar-menu::-webkit-scrollbar-thumb{
-    background: rgba(255,255,255,.15);
-    border-radius: 20px;
+/* FIX: Overlay selalu hidden */
+.sidebar-overlay { display: none !important; }
+
+/* =========================================================
+   MOBILE & TABLET
+========================================================= */
+@media(max-width:1024px){
+
+    .sidebar {
+        position: fixed;
+        top: var(--navbar-height);
+        left: 0; bottom: 0;
+        width: var(--sidebar-width);
+        z-index: 1095;
+        padding: 22px 18px;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform .3s ease;
+    }
+
+    .sidebar.show { transform: translateX(0); }
+
+    .sidebar.collapsed {
+        width: var(--sidebar-width);
+        padding: 22px 18px;
+        overflow-y: auto;
+    }
+
+    .content { padding: 16px; }
 }
 
 /* =========================================================
-   SIDEBAR TITLE
+   SIDEBAR INNER
 ========================================================= */
+.sidebar-menu-wrap { flex: 1; overflow-y: auto; }
 
-.sidebar-title{
-    font-size: 11px;
-    color: rgba(255,255,255,.5);
+/* =========================================================
+   MENU
+========================================================= */
+.menu-section { margin-top: 14px; }
+
+.menu-title {
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: .8px;
-    margin: 6px 12px 12px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
+    opacity: .5;
+    margin-bottom: 8px;
+    padding-left: 4px;
 }
 
-/* =========================================================
-   SIDEBAR LINK
-========================================================= */
-
-.sidebar a{
+.menu-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     text-decoration: none;
-
+    color: rgba(255,255,255,.88);
     padding: 11px 13px;
-    border-radius: 14px;
-    margin-bottom: 6px;
-
-    transition: .25s;
-
-    color: rgba(255,255,255,.9);
-
-    font-size: 13.5px;
+    border-radius: 12px;
+    margin-bottom: 4px;
+    transition: background .2s, padding-left .2s;
+    font-size: 14px;
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.sidebar .left{
+.menu-item-left {
     display: flex;
     align-items: center;
     gap: 11px;
 }
 
-.sidebar i{
-    font-size: 16px;
+.menu-item i {
+    font-size: 17px;
     flex-shrink: 0;
+    width: 20px;
+    text-align: center;
 }
 
-.sidebar a:hover{
-    background: rgba(255,255,255,.08);
+.menu-item:hover {
+    background: rgba(255,255,255,.1);
     color: white;
-    transform: translateX(2px);
+    padding-left: 17px;
 }
 
-.sidebar a.active{
-    background: white;
-    color: var(--green);
+.menu-item.active {
+    background: rgba(255,255,255,.15);
+    color: white;
     font-weight: 600;
-    box-shadow: 0 10px 20px rgba(0,0,0,.08);
+    border-left: 3px solid rgba(255,255,255,.8);
+    padding-left: 10px;
 }
 
-/* =========================================================
-   BADGE
-========================================================= */
-
-.menu-badge{
+.menu-badge {
     background: #84cc16;
     color: #111827;
     font-size: 10px;
@@ -242,504 +238,335 @@ body{
     flex-shrink: 0;
 }
 
-/* =========================================================
-   SIDEBAR FOOTER
-========================================================= */
+.sidebar.collapsed .menu-item span,
+.sidebar.collapsed .menu-title,
+.sidebar.collapsed .sidebar-footer { display: none; }
 
-.sidebar-footer{
-    padding: 14px;
-    border-top: 1px solid rgba(255,255,255,.08);
-    background: rgba(0,0,0,.05);
+/* =========================================================
+   FOOTER SIDEBAR
+========================================================= */
+.sidebar-footer {
+    flex-shrink: 0;
+    padding: 12px 0 0;
+    margin-top: 8px;
+    border-top: 1px solid rgba(255,255,255,.12);
 }
 
-.footer-user{
+.footer-user {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(0,0,0,.15);
 }
 
-.footer-avatar{
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: #22c55e;
+.footer-avatar {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.15);
+    border: 1.5px solid rgba(255,255,255,.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
     font-weight: 700;
     font-size: 15px;
-    flex-shrink: 0;
-}
-
-.avatar-img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-.footer-name{
     color: white;
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
+    flex-shrink: 0;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 
-.footer-user small{
-    color: rgba(255,255,255,.75);
-    font-size: 12px;
-    display: block;
-    margin-top: 2px;
-}
+.footer-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; }
+.footer-role { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 1px; }
 
-/* =========================================================
-   CONTENT
-========================================================= */
+.avatar-img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
 
-.content{
-    position: fixed;
-
-    top: var(--navbar-height);
-    left: var(--sidebar-width);
-    right: 0;
-    bottom: 0;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    padding: 24px;
-
-    background: #f4f7fb;
-
-    transition: left .3s ease;
-}
-
-/* Desktop collapsed */
-.content.expanded{
-    left: 0;
-}
-
-/* SCROLLBAR */
-
-.content::-webkit-scrollbar{
-    width: 6px;
-}
-
-.content::-webkit-scrollbar-thumb{
-    background: #d1d5db;
-    border-radius: 20px;
-}
-
-.content > *:last-child{
-    margin-bottom: 40px;
+@media(max-width:1024px){
+    .sidebar-footer {
+        position: sticky;
+        bottom: 0;
+        background: #064e1d;
+        margin: 8px -18px -22px;
+        padding: 12px 18px;
+        border-top: 1px solid rgba(255,255,255,.1);
+        border-radius: 0;
+    }
 }
 
 /* =========================================================
-   CARDS
+   GLOBAL CARDS
 ========================================================= */
-
-.dashboard-header,
-.card-box{
+.card-box,
+.dashboard-header {
     background: white;
-    border-radius: 24px;
-    border: 1px solid #edf0f2;
-    box-shadow: 0 5px 18px rgba(15,23,42,.04);
-}
-
-.dashboard-header{
-    padding: 24px;
-    margin-bottom: 22px;
-}
-
-.card-box{
-    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 22px;
     margin-bottom: 18px;
+}
+
+.dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
+    backdrop-filter: blur(10px);
 }
 
 /* =========================================================
    MISC
 ========================================================= */
+h1,h2,h3,h4,h5 { color: #111827; }
+p { margin-bottom: 0; }
 
-h1,h2,h3,h4,h5{
-    color: #111827;
+.profile-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 4px solid #dcfce7; }
+
+.btn-green {
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: .2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
-p{
-    margin-bottom: 0;
+.btn-green:hover { background: #066621; color: white; }
+
+.form-control, .form-select {
+    border-radius: 12px;
+    min-height: 50px;
+    border: 1px solid #e5e7eb;
+    box-shadow: none !important;
 }
 
-.profile-img{
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #dcfce7;
-}
+.form-control:focus, .form-select:focus { border-color: #bfd7ca; }
+textarea.form-control { min-height: 130px; }
+
+/* Status */
+.status-proses  { padding: 6px 13px; border-radius: 30px; font-size: 11px; font-weight: 600; background: #fef3c7; color: #b45309; }
+.status-selesai { padding: 6px 13px; border-radius: 30px; font-size: 11px; font-weight: 600; background: #dcfce7; color: #15803d; }
+.status-pending { padding: 6px 13px; border-radius: 30px; font-size: 11px; font-weight: 600; background: #fee2e2; color: #dc2626; }
+
+
 
 /* =========================================================
-   RESPONSIVE — TABLET (769px – 1024px)
+   RESPONSIVE — TABLET
 ========================================================= */
-
 @media(min-width:769px) and (max-width:1024px){
-
-    :root{
-        --sidebar-width: 210px;
-    }
-
-    .navbar-brand{
-        font-size: 17px;
-    }
-
-    .navbar-brand img{
-        width: 36px;
-    }
-
-    .sidebar a{
-        font-size: 13px;
-        padding: 10px 12px;
-    }
-
-    .sidebar-title{
-        font-size: 10px;
-    }
-
-    .footer-avatar{
-        width: 36px;
-        height: 36px;
-        font-size: 13px;
-    }
-
-    .footer-name{
-        font-size: 12px;
-    }
-
-    .content{
-        padding: 18px;
-    }
-
-    .dashboard-header,
-    .card-box{
-        padding: 18px;
-        border-radius: 20px;
-    }
-
-    h2,h3,h4{
-        font-size: 18px !important;
-    }
-
-    /* Tablet: sidebar tersembunyi, toggle via logo */
-    .sidebar{
-        left: calc(-1 * var(--sidebar-width));
-    }
-
-    .sidebar.show{
-        left: 0;
-    }
-
-    .content{
-        left: 0;
-    }
-
+    .brand-font { font-size: 18px; }
+    .navbar-brand img { width: 34px; }
+    .menu-item { font-size: 13px; padding: 11px 12px; }
+    .menu-item i { font-size: 16px; }
+    .footer-name { font-size: 13px; }
+    .footer-avatar { width: 38px; height: 38px; font-size: 14px; }
+    .card-box, .dashboard-header { padding: 18px; }
+    h2,h3 { font-size: 20px !important; }
+    h4,h5 { font-size: 17px !important; }
+    .profile-img { width: 90px; height: 90px; }
 }
 
 /* =========================================================
-   RESPONSIVE — MOBILE (≤ 768px)
+   RESPONSIVE — MOBILE
 ========================================================= */
-
 @media(max-width:768px){
-
-    .navbar-brand{
-        font-size: 15px;
-    }
-
-    .navbar-brand img{
-        width: 32px;
-    }
-
-    /* Sidebar tersembunyi */
-    .sidebar{
-        left: -100%;
-        width: 230px;
-    }
-
-    .sidebar.show{
-        left: 0;
-    }
-
-    /* Content full width */
-    .content{
-        left: 0;
-        padding: 14px;
-    }
-
-    .dashboard-header,
-    .card-box{
-        border-radius: 16px;
-        padding: 16px;
-    }
-
-    h2,h3,h4{
-        font-size: 18px !important;
-    }
-
-    h5{
-        font-size: 16px !important;
-    }
-
-    .profile-img{
-        width: 80px;
-        height: 80px;
-    }
-
-    /* Tabel scroll horizontal */
-    .table-responsive{
-        border-radius: 12px;
-    }
-
+    .brand-font { font-size: 15px; }
+    .navbar-brand img { width: 30px; }
+    .content { padding: 14px; }
+    h2,h3,h4,h5 { font-size: 18px !important; }
+    .card-box, .dashboard-header { padding: 14px; border-radius: 14px; }
+    .form-control, .form-select { min-height: 44px; font-size: 14px; }
+    .profile-img { width: 80px; height: 80px; }
 }
-
-/* =========================================================
-   RESPONSIVE — SMALL MOBILE (≤ 400px)
-========================================================= */
 
 @media(max-width:400px){
-
-    .navbar-brand{
-        font-size: 13px;
-    }
-
-    .navbar-brand img{
-        width: 28px;
-    }
-
-    .content{
-        padding: 10px;
-    }
-
-    .dashboard-header,
-    .card-box{
-        padding: 14px;
-        border-radius: 14px;
-    }
-
-    h2,h3,h4,h5{
-        font-size: 16px !important;
-    }
-
+    .brand-font { font-size: 13px; }
+    .navbar-brand img { width: 26px; }
+    .content { padding: 10px; }
 }
 
 </style>
 
 </head>
-
 <body>
 
-<!-- NAVBAR — logo = toggle sidebar -->
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid px-3">
-
-        <div class="navbar-brand" id="navbarToggle" role="button" aria-label="Toggle sidebar">
-            <img src="/logo.png" alt="Logo">
-            <span>eLapor SMKN 2 Marabahan</span>
+        <div class="navbar-brand brand-font" id="navbarToggle" role="button" aria-label="Toggle sidebar">
+            <img src="{{ asset('images/logo.png') }}" width="40" alt="Logo">
+            <span>SIPENSA</span>
         </div>
-
     </div>
 </nav>
 
-<!-- OVERLAY -->
+<!-- Overlay selalu hidden -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-<!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
+<!-- LAYOUT -->
+<div class="layout-body">
 
-    <!-- MENU -->
-    <div class="sidebar-menu">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
 
-        <div class="sidebar-title">Utama</div>
+        <div class="sidebar-menu-wrap">
 
-        <a href="/guru"
-           class="{{ request()->is('guru') ? 'active' : '' }}">
-            <div class="left">
-                <i class="bi bi-grid"></i>
-                Dashboard
-            </div>
-        </a>
+            <div class="menu-section">
+                <p class="menu-title">Utama</p>
 
-        <a href="{{ route('guru.laporan') }}"
-           class="{{ request()->is('guru/laporan') ? 'active' : '' }}">
-            <div class="left">
-                <i class="bi bi-journal-text"></i>
-                Kelola Laporan
-            </div>
-        </a>
+                <a href="/guru" class="menu-item {{ request()->is('guru') ? 'active' : '' }}">
+                    <div class="menu-item-left">
+                        <i class="bi bi-grid"></i>
+                        <span>Dashboard</span>
+                    </div>
+                </a>
 
-        <a href="/respon-saya"
-           class="{{ request()->is('respon-saya') ? 'active' : '' }}">
-            <div class="left">
-                <i class="bi bi-chat-left-text"></i>
-                Respon Saya
-            </div>
-            <span class="menu-badge">
-                {{ \App\Models\Pengaduan::whereNotNull('tanggapan')->count() }}
-            </span>
-        </a>
+                <a href="{{ route('guru.laporan') }}" class="menu-item {{ request()->is('guru/laporan') ? 'active' : '' }}">
+                    <div class="menu-item-left">
+                        <i class="bi bi-journal-text"></i>
+                        <span>Kelola Laporan</span>
+                    </div>
+                </a>
 
-        <div class="sidebar-title mt-3">Data</div>
+                <a href="/respon-saya" class="menu-item {{ request()->is('respon-saya') ? 'active' : '' }}">
+                    <div class="menu-item-left">
+                        <i class="bi bi-chat-left-text"></i>
+                        <span>Respon Saya</span>
+                    </div>
+                    <span class="menu-badge">
+                        {{ \App\Models\Pengaduan::whereNotNull('tanggapan')->count() }}
+                    </span>
+                </a>
 
-        <a href="/analisis"
-           class="{{ request()->is('analisis') ? 'active' : '' }}">
-            <div class="left">
-                <i class="bi bi-bar-chart"></i>
-                Analisis
-            </div>
-        </a>
-
-        <a href="/kelola-user"
-           class="{{ request()->is('kelola-user') ? 'active' : '' }}">
-            <div class="left">
-                <i class="bi bi-people"></i>
-                Kelola User
-            </div>
-        </a>
-
-        <a href="{{ route('kategori.index') }}"
-           class="{{ request()->routeIs('kategori.*') ? 'active' : '' }}">
-            <div class="left">
-                <i class="bi bi-folder2-open"></i>
-                Kelola Kategori
-            </div>
-        </a>
-
-        <a href="/guru/profil"
-           class="{{ request()->is('guru/profil') ? 'active' : '' }}">
-            <div class="left">
-                <i class="bi bi-person"></i>
-                Profil
-            </div>
-        </a>
-
-    </div>
-
-    <!-- FOOTER SIDEBAR -->
-    <div class="sidebar-footer">
-        <div class="footer-user">
-
-            <div class="footer-avatar">
-                @if(auth()->user()->foto)
-                    <img src="{{ asset('storage/' . auth()->user()->foto) }}"
-                         alt="Foto Profil"
-                         class="avatar-img">
-                @else
-                    {{ strtoupper(substr(auth()->user()->name,0,1)) }}
-                @endif
             </div>
 
-            <div style="min-width:0;">
-                <div class="footer-name">{{ auth()->user()->name }}</div>
-                <small>{{ auth()->user()->role }}</small>
+            <div class="menu-section">
+                <p class="menu-title">Data</p>
+
+                <a href="/analisis" class="menu-item {{ request()->is('analisis') ? 'active' : '' }}">
+                    <div class="menu-item-left">
+                        <i class="bi bi-bar-chart"></i>
+                        <span>Analisis</span>
+                    </div>
+                </a>
+
+                <a href="/kelola-user" class="menu-item {{ request()->is('kelola-user') ? 'active' : '' }}">
+                    <div class="menu-item-left">
+                        <i class="bi bi-people"></i>
+                        <span>Kelola User</span>
+                    </div>
+                </a>
+
+                <a href="{{ route('kategori.index') }}" class="menu-item {{ request()->routeIs('kategori.*') ? 'active' : '' }}">
+                    <div class="menu-item-left">
+                        <i class="bi bi-folder2-open"></i>
+                        <span>Kelola Kategori</span>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="menu-section">
+                <p class="menu-title">Akun</p>
+
+                <a href="/guru/profil" class="menu-item {{ request()->is('guru/profil') ? 'active' : '' }}">
+                    <div class="menu-item-left">
+                        <i class="bi bi-person"></i>
+                        <span>Profil</span>
+                    </div>
+                </a>
+
             </div>
 
         </div>
+
+        <!-- FOOTER -->
+        <div class="sidebar-footer">
+            <div class="footer-user">
+                <div class="footer-avatar">
+                    @if(auth()->user()->foto)
+                        <img src="{{ asset('storage/' . auth()->user()->foto) }}"
+                             alt="Foto" class="avatar-img">
+                    @else
+                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    @endif
+                </div>
+                <div style="min-width:0;">
+                    <div class="footer-name">{{ auth()->user()->name }}</div>
+                    <div class="footer-role">Guru BK</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-</div>
+    <!-- CONTENT -->
+    <div class="content" id="mainContent">
+        @yield('content')
+    </div>
 
-<!-- CONTENT -->
-<div class="content" id="mainContent">
-    @yield('content')
 </div>
 
 <script>
 
-/* =========================================================
-   ELEMEN
-========================================================= */
-
 const sidebar      = document.getElementById('sidebar');
 const overlay      = document.getElementById('sidebarOverlay');
 const navbarToggle = document.getElementById('navbarToggle');
-const mainContent  = document.getElementById('mainContent');
 
-/* =========================================================
-   HELPER
-========================================================= */
+function isDesktop(){ return window.innerWidth > 1024; }
 
-function isDesktop(){
-    return window.innerWidth > 1024;
-}
-
-/* State: desktop default terbuka, mobile/tablet tertutup */
 let sidebarOpen = isDesktop();
-
 applyState();
-
-/* =========================================================
-   TOGGLE — klik logo
-========================================================= */
 
 navbarToggle.addEventListener('click', () => {
     sidebarOpen = !sidebarOpen;
     applyState();
 });
 
-/* Tutup via overlay */
 overlay.addEventListener('click', () => {
     sidebarOpen = false;
     applyState();
 });
 
-/* Tutup saat klik menu (mobile/tablet) */
-document.querySelectorAll('.sidebar a').forEach(link => {
-    link.addEventListener('click', () => {
-        if(!isDesktop()){
+document.querySelectorAll('.menu-item').forEach(item => {
+    item.addEventListener('click', () => {
+        if (!isDesktop()) {
             sidebarOpen = false;
             applyState();
         }
     });
 });
 
-/* =========================================================
-   APPLY STATE
-========================================================= */
-
 function applyState(){
-
-    if(isDesktop()){
-
+    if (isDesktop()) {
         overlay.classList.remove('show');
         sidebar.classList.remove('show');
-
-        if(sidebarOpen){
-            sidebar.classList.remove('collapsed');
-            mainContent.classList.remove('expanded');
-        } else {
-            sidebar.classList.add('collapsed');
-            mainContent.classList.add('expanded');
-        }
-
+        sidebarOpen
+            ? sidebar.classList.remove('collapsed')
+            : sidebar.classList.add('collapsed');
     } else {
-
         sidebar.classList.remove('collapsed');
-        mainContent.classList.remove('expanded');
-
-        if(sidebarOpen){
-            sidebar.classList.add('show');
-            overlay.classList.add('show');
-        } else {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
-        }
-
+        sidebarOpen
+            ? sidebar.classList.add('show')
+            : sidebar.classList.remove('show');
+        /* Tidak tambah overlay.show → tidak ada gelap */
     }
 }
 
-/* Reset saat resize */
+let lastBreakpoint = isDesktop();
 window.addEventListener('resize', () => {
-    sidebarOpen = isDesktop();
-    applyState();
+    const nowDesktop = isDesktop();
+    if (nowDesktop !== lastBreakpoint) {
+        lastBreakpoint = nowDesktop;
+        sidebarOpen = nowDesktop;
+        applyState();
+    }
 });
 
 </script>

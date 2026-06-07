@@ -26,19 +26,19 @@ class KategoriController extends Controller
 
     return redirect()->back()->with('success', 'Kategori berhasil ditambahkan');
 }
-
     public function update(Request $request, $id)
-    {
-        $kategori = Kategori::findOrFail($id);
+{
+    $request->validate([
+        'nama_kategori' => 'required'
+    ]);
 
-        $kategori->update([
-            'nama' => $request->nama,
-            'deskripsi' => $request->deskripsi,
-            'warna' => $request->warna,
-        ]);
+    // Gunakan id_kategori sebagai primary key
+    $kategori = \App\Models\Kategori::where('id_kategori', $id)->firstOrFail();
+    $kategori->nama_kategori = $request->nama_kategori;
+    $kategori->save();
 
-        return back()->with('success', 'Kategori berhasil diupdate');
-    }
+    return redirect()->back()->with('success', 'Kategori berhasil diupdate');
+}
 
     public function destroy($id)
     {

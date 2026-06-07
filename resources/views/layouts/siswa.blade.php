@@ -18,10 +18,6 @@
 
 <style>
 
-/* =========================================================
-   ROOT
-========================================================= */
-
 :root{
     --green: #0a7f2e;
     --green-dark: #064e1d;
@@ -31,25 +27,15 @@
     --text: #1f2937;
     --text-soft: #6b7280;
     --shadow: 0 1px 2px rgba(15,23,42,.03), 0 8px 24px rgba(15,23,42,.04);
-
     --sidebar-width: 260px;
     --navbar-height: 70px;
 }
 
-/* =========================================================
-   RESET
-========================================================= */
-
 *, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0; padding: 0; box-sizing: border-box;
 }
 
-html, body {
-    height: 100%;
-    overflow: hidden;
-}
+html, body { height: 100%; overflow: hidden; }
 
 body {
     font-family: 'Segoe UI', sans-serif;
@@ -78,27 +64,39 @@ body {
     align-items: center;
 }
 
-.navbar a { color: white !important; }
-
+/* FIX 1: Judul SIPENSA tidak berubah warna saat diklik/hover */
 .navbar-brand {
     display: flex;
     align-items: center;
     gap: 10px;
     cursor: pointer;
     user-select: none;
-    color: white;
-    text-decoration: none;
+    color: white !important;
+    text-decoration: none !important;
+    -webkit-tap-highlight-color: transparent; /* hapus highlight biru di mobile */
+    outline: none;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus,
+.navbar-brand:active,
+.navbar-brand:visited {
+    color: white !important;
+    text-decoration: none !important;
+    background: none !important;
 }
 
 .navbar-brand span {
+    color: white !important;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.navbar a { color: white !important; }
+
 /* =========================================================
    LAYOUT WRAPPER
-   Semua layout pakai flex row di bawah navbar
 ========================================================= */
 
 .layout-body {
@@ -111,34 +109,27 @@ body {
 
 /* =========================================================
    SIDEBAR
-   Desktop: bagian dari flex row → mendorong konten
-   Mobile/Tablet: fixed overlay → tidak menimpa konten
 ========================================================= */
 
 .sidebar {
     width: var(--sidebar-width);
     flex-shrink: 0;
-
     background: linear-gradient(180deg, #0a7f2e, #064e1d);
     color: white;
     padding: 22px 18px;
     overflow-y: auto;
-
-    /* Animasi buka/tutup */
     transition: width .3s ease, margin-left .3s ease;
-
-    /* Di atas overlay tapi di bawah navbar */
     z-index: 10;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Desktop: sidebar tertutup → width 0 */
 .sidebar.collapsed {
     width: 0;
     padding: 0;
     overflow: hidden;
 }
 
-/* SCROLLBAR */
 .sidebar::-webkit-scrollbar { width: 6px; }
 .sidebar::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,.2);
@@ -147,7 +138,6 @@ body {
 
 /* =========================================================
    CONTENT
-   Otomatis mengisi sisa lebar setelah sidebar
 ========================================================= */
 
 .content {
@@ -156,7 +146,7 @@ body {
     overflow-x: hidden;
     padding: 22px;
     background: var(--bg);
-    min-width: 0; /* penting agar flex tidak overflow */
+    min-width: 0;
 }
 
 .content::-webkit-scrollbar { width: 8px; }
@@ -168,26 +158,18 @@ body {
 .content > *:last-child { margin-bottom: 40px; }
 
 /* =========================================================
-   OVERLAY — hanya muncul di mobile/tablet
+   FIX 2: Overlay DIHAPUS — tidak ada gelap saat buka sidebar
 ========================================================= */
 
-.sidebar-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.45);
-    z-index: 1085; /* di atas konten, di bawah sidebar mobile */
-}
-
-.sidebar-overlay.show { display: block; }
+/* overlay tetap ada di DOM tapi tidak pernah tampil */
+.sidebar-overlay { display: none !important; }
 
 /* =========================================================
-   MOBILE & TABLET — sidebar jadi overlay (fixed)
+   MOBILE & TABLET
 ========================================================= */
 
 @media(max-width:1024px){
 
-    /* Sidebar keluar dari flex flow, jadi fixed overlay */
     .sidebar {
         position: fixed;
         top: var(--navbar-height);
@@ -196,39 +178,26 @@ body {
         z-index: 1095;
         padding: 22px 18px;
         overflow-y: auto;
-
-        /* Default tersembunyi di kiri */
         transform: translateX(-100%);
         transition: transform .3s ease;
     }
 
-    /* Saat terbuka */
     .sidebar.show {
         transform: translateX(0);
     }
 
-    /* Batalkan collapsed (tidak berlaku di mobile) */
     .sidebar.collapsed {
         width: var(--sidebar-width);
         padding: 22px 18px;
         overflow-y: auto;
     }
 
-    /* Content tetap full width karena sidebar sudah di luar flex */
-    .content {
-        padding: 16px;
-    }
-
+    .content { padding: 16px; }
 }
 
 /* =========================================================
    SIDEBAR INNER
 ========================================================= */
-
-.sidebar {
-    display: flex;
-    flex-direction: column;
-}
 
 .sidebar-menu-wrap {
     flex: 1;
@@ -265,6 +234,7 @@ body {
     font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .menu-item i {
@@ -288,7 +258,6 @@ body {
     padding-left: 10px;
 }
 
-/* Sembunyikan teks saat collapsed (desktop) */
 .sidebar.collapsed .menu-item span,
 .sidebar.collapsed .menu-title,
 .sidebar.collapsed .sidebar-footer {
@@ -316,8 +285,7 @@ body {
 }
 
 .footer-avatar {
-    width: 38px;
-    height: 38px;
+    width: 38px; height: 38px;
     border-radius: 10px;
     background: rgba(255,255,255,.15);
     border: 1.5px solid rgba(255,255,255,.25);
@@ -346,13 +314,11 @@ body {
 }
 
 .footer-avatar .avatar-img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
     border-radius: 8px;
 }
 
-/* Mobile/Tablet: footer sticky di bawah sidebar */
 @media(max-width:1024px){
     .sidebar-footer {
         position: sticky;
@@ -369,22 +335,15 @@ body {
    GLOBAL CARD
 ========================================================= */
 
-.card-box,
-.form-box,
-.laporan-wrapper,
-.dashboard-header,
-.stat-card,
-.chat-box {
+.card-box, .form-box, .laporan-wrapper,
+.dashboard-header, .stat-card, .chat-box {
     background: white;
     border-radius: 16px;
     border: 1px solid var(--border);
     box-shadow: var(--shadow);
 }
 
-.card-box,
-.form-box,
-.laporan-wrapper,
-.chat-box { padding: 22px; }
+.card-box, .form-box, .laporan-wrapper, .chat-box { padding: 22px; }
 
 .dashboard-header {
     position: sticky;
@@ -395,10 +354,6 @@ body {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
-
-/* =========================================================
-   STAT CARD
-========================================================= */
 
 .stat-card { padding: 20px; transition: .2s; }
 .stat-card:hover { transform: translateY(-2px); }
@@ -429,17 +384,14 @@ body {
    FORM
 ========================================================= */
 
-.form-control,
-.form-select {
+.form-control, .form-select {
     border-radius: 12px;
     min-height: 50px;
     border: 1px solid #e5e7eb;
     box-shadow: none !important;
 }
 
-.form-control:focus,
-.form-select:focus { border-color: #bfd7ca; }
-
+.form-control:focus, .form-select:focus { border-color: #bfd7ca; }
 textarea.form-control { min-height: 130px; }
 
 /* =========================================================
@@ -490,16 +442,9 @@ textarea.form-control { min-height: 130px; }
    STATUS
 ========================================================= */
 
-.status-proses, .status-selesai, .status-pending {
-    padding: 6px 13px;
-    border-radius: 30px;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.status-proses  { background: #fef3c7; color: #b45309; }
-.status-selesai { background: #dcfce7; color: #15803d; }
-.status-pending { background: #fee2e2; color: #dc2626; }
+.status-proses  { padding: 6px 13px; border-radius: 30px; font-size: 11px; font-weight: 600; background: #fef3c7; color: #b45309; }
+.status-selesai { padding: 6px 13px; border-radius: 30px; font-size: 11px; font-weight: 600; background: #dcfce7; color: #15803d; }
+.status-pending { padding: 6px 13px; border-radius: 30px; font-size: 11px; font-weight: 600; background: #fee2e2; color: #dc2626; }
 
 /* =========================================================
    PROFILE
@@ -537,25 +482,17 @@ textarea.form-control { min-height: 130px; }
 ========================================================= */
 
 @media(min-width:769px) and (max-width:1024px){
-
     .brand-font { font-size: 18px; }
     .navbar-brand img { width: 34px; }
-
     .menu-item { font-size: 13px; padding: 11px 12px; }
     .menu-item i { font-size: 16px; }
-    .menu-title { font-size: 10px; }
     .footer-name { font-size: 13px; }
     .footer-avatar { width: 38px; height: 38px; font-size: 14px; }
-
     .stat-number { font-size: 28px; }
-
     .card-box, .form-box, .laporan-wrapper, .chat-box { padding: 18px; }
-
     h2, h3 { font-size: 20px !important; }
     h4, h5 { font-size: 17px !important; }
-
     .profile-img { width: 90px; height: 90px; }
-
 }
 
 /* =========================================================
@@ -563,58 +500,21 @@ textarea.form-control { min-height: 130px; }
 ========================================================= */
 
 @media(max-width:768px){
-
     .brand-font { font-size: 15px; }
     .navbar-brand img { width: 30px; }
-
     .content { padding: 14px; }
-
-    .dashboard-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .laporan-top {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
+    .dashboard-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .laporan-top { flex-direction: column; align-items: stretch; }
     .filter-status { width: 100%; }
-
-    .laporan-footer {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
+    .laporan-footer { flex-direction: column; align-items: flex-start; }
     .stat-number { font-size: 26px; }
-
     h2, h3, h4, h5 { font-size: 18px !important; }
-
     .card-box, .form-box, .laporan-wrapper, .chat-box { padding: 14px; }
-
     .form-control, .form-select { min-height: 44px; font-size: 14px; }
-
     .profile-img { width: 80px; height: 80px; }
-
-    .bubble-user, .bubble-bot { max-width: 90%; }
-
-    .chatbot-btn {
-        width: 50px; height: 50px;
-        font-size: 22px;
-        right: 14px; bottom: 14px;
-    }
-
-    .btn-green.w-100-mobile {
-        width: 100%;
-        justify-content: center;
-    }
-
+    .chatbot-btn { width: 50px; height: 50px; font-size: 22px; right: 14px; bottom: 14px; }
+    .btn-green.w-100-mobile { width: 100%; justify-content: center; }
 }
-
-/* =========================================================
-   RESPONSIVE — SMALL MOBILE
-========================================================= */
 
 @media(max-width:400px){
     .brand-font { font-size: 13px; }
@@ -632,16 +532,14 @@ textarea.form-control { min-height: 130px; }
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid px-3">
-
         <div class="navbar-brand brand-font" id="navbarToggle" role="button" aria-label="Toggle sidebar">
             <img src="{{ asset('images/logo.png') }}" width="40" alt="Logo">
             <span>SIPENSA</span>
         </div>
-
     </div>
 </nav>
 
-<!-- OVERLAY — hanya aktif di mobile/tablet -->
+<!-- overlay tetap ada tapi selalu hidden -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <!-- LAYOUT BODY -->
@@ -650,7 +548,6 @@ textarea.form-control { min-height: 130px; }
     <!-- SIDEBAR -->
     <div class="sidebar" id="sidebar">
 
-        <!-- MENU WRAP -->
         <div class="sidebar-menu-wrap">
 
             <div class="menu-section">
@@ -699,8 +596,7 @@ textarea.form-control { min-height: 130px; }
                 <div class="footer-avatar">
                     @if(auth()->user()->foto)
                         <img src="{{ asset('storage/' . auth()->user()->foto) }}"
-                             alt="Foto"
-                             class="avatar-img">
+                             alt="Foto" class="avatar-img">
                     @else
                         {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                     @endif
@@ -729,26 +625,20 @@ const navbarToggle = document.getElementById('navbarToggle');
 
 function isDesktop(){ return window.innerWidth > 1024; }
 
-/* State:
-   Desktop  → default terbuka
-   Mobile/Tablet → default tertutup
-*/
 let sidebarOpen = isDesktop();
 applyState();
 
-/* Klik logo */
 navbarToggle.addEventListener('click', () => {
     sidebarOpen = !sidebarOpen;
     applyState();
 });
 
-/* Klik overlay */
+/* Overlay tidak aktif tapi tetap ada listener agar tidak error */
 overlay.addEventListener('click', () => {
     sidebarOpen = false;
     applyState();
 });
 
-/* Klik menu item → tutup di mobile/tablet */
 document.querySelectorAll('.menu-item').forEach(item => {
     item.addEventListener('click', () => {
         if(!isDesktop()){
@@ -760,23 +650,16 @@ document.querySelectorAll('.menu-item').forEach(item => {
 
 function applyState(){
     if(isDesktop()){
-        /* Desktop: sidebar dalam flex row → collapsed = width 0 */
         overlay.classList.remove('show');
-        sidebar.classList.remove('show');  /* hapus class mobile */
-
-        if(sidebarOpen){
-            sidebar.classList.remove('collapsed');
-        } else {
-            sidebar.classList.add('collapsed');
-        }
-
+        sidebar.classList.remove('show');
+        sidebarOpen
+            ? sidebar.classList.remove('collapsed')
+            : sidebar.classList.add('collapsed');
     } else {
-        /* Mobile/Tablet: sidebar fixed overlay → pakai transform */
-        sidebar.classList.remove('collapsed'); /* hapus class desktop */
-
+        sidebar.classList.remove('collapsed');
         if(sidebarOpen){
             sidebar.classList.add('show');
-            overlay.classList.add('show');
+            /* FIX 3: tidak tambahkan overlay.show → tidak ada gelap */
         } else {
             sidebar.classList.remove('show');
             overlay.classList.remove('show');
@@ -784,7 +667,6 @@ function applyState(){
     }
 }
 
-/* Reset saat resize melewati breakpoint */
 let lastBreakpoint = isDesktop();
 window.addEventListener('resize', () => {
     const nowDesktop = isDesktop();

@@ -4,616 +4,597 @@
 
 @section('content')
 
-<div class="panduan-page">
+<div class="pan-page">
 
-    <!-- FIX HEADER -->
-    <div class="panduan-header">
-
-        <div>
-            <h3 class="header-title">
-                Panduan Konseling
-            </h3>
-
-            <p class="header-subtitle">
-                Informasi dan panduan penggunaan layanan pengaduan siswa
-            </p>
+    {{-- HEADER FIX --}}
+    <div class="pan-header">
+        <div class="pan-header-left">
+            <div class="pan-header-icon">
+                <i class="bi bi-book-half"></i>
+            </div>
+            <div>
+                <h3 class="pan-title">Panduan Konseling</h3>
+                <p class="pan-sub">Informasi dan panduan penggunaan layanan pengaduan siswa</p>
+            </div>
         </div>
-
-        <div class="header-icon">
-            <i class="bi bi-book-half"></i>
-        </div>
-
     </div>
 
-    <!-- CONTENT -->
-    <div class="panduan-container">
+    {{-- SCROLL AREA --}}
+    <div class="pan-scroll">
 
-        <div class="row g-4">
+        <div class="pan-grid">
 
-            <!-- CARA MEMBUAT LAPORAN -->
-            <div class="col-md-6">
-
-                <div class="panduan-card">
-
-                    <div class="card-icon green">
-                        <i class="bi bi-pencil-square"></i>
+            {{-- CARD 1: CARA MEMBUAT LAPORAN --}}
+            <div class="pan-card">
+                <div class="pan-card-head">
+                    <div class="pci green"><i class="bi bi-pencil-square"></i></div>
+                    <div>
+                        <h5 class="pan-card-title">Cara Membuat Laporan</h5>
+                        <p class="pan-card-sub">Ikuti langkah berikut</p>
                     </div>
-
-                    <h5>
-                        Cara Membuat Laporan
-                    </h5>
-
-                    <ul>
-                        <li>Pilih menu <b>Buat Laporan</b></li>
-                        <li>Pilih kategori masalah</li>
-                        <li>Isi judul dan deskripsi laporan</li>
-                        <li>Tambahkan lokasi dan waktu kejadian</li>
-                        <li>Upload bukti pendukung jika ada</li>
-                        <li>Klik tombol <b>Kirim Laporan</b></li>
-                    </ul>
-
                 </div>
-
+                <div class="step-list">
+                    <div class="step-row">
+                        <span class="step-num">1</span>
+                        <span>Pilih menu <strong>Buat Laporan</strong> di sidebar</span>
+                    </div>
+                    <div class="step-row">
+                        <span class="step-num">2</span>
+                        <span>Pilih kategori masalah yang sesuai</span>
+                    </div>
+                    <div class="step-row">
+                        <span class="step-num">3</span>
+                        <span>Isi judul dan deskripsi laporan secara lengkap</span>
+                    </div>
+                    <div class="step-row">
+                        <span class="step-num">4</span>
+                        <span>Tambahkan lokasi dan waktu kejadian</span>
+                    </div>
+                    <div class="step-row">
+                        <span class="step-num">5</span>
+                        <span>Upload bukti pendukung jika ada</span>
+                    </div>
+                    <div class="step-row">
+                        <span class="step-num">6</span>
+                        <span>Klik tombol <strong>Kirim Laporan</strong></span>
+                    </div>
+                </div>
             </div>
 
-            <!-- JENIS LAPORAN -->
-            <div class="col-md-6">
-
-                <div class="panduan-card">
-
-                    <div class="card-icon blue">
-                        <i class="bi bi-folder-check"></i>
+            {{-- CARD 2: JENIS LAPORAN --}}
+            <div class="pan-card">
+                <div class="pan-card-head">
+                    <div class="pci blue"><i class="bi bi-folder-check"></i></div>
+                    <div>
+                        <h5 class="pan-card-title">Jenis Laporan</h5>
+                        <p class="pan-card-sub">Yang dapat dilaporkan</p>
                     </div>
-
-                    <h5>
-                        Jenis Laporan
-                    </h5>
-
-                    <ul>
-                        <li>Bullying atau perundungan</li>
-                        <li>Masalah akademik</li>
-                        <li>Kerusakan fasilitas sekolah</li>
-                        <li>Permasalahan sosial siswa</li>
-                        <li>Konseling pribadi</li>
-                        <li>Laporan lainnya terkait sekolah</li>
-                    </ul>
-
                 </div>
-
-            </div>
-
-            <!-- PROSES -->
-            <div class="col-md-6">
-
-                <div class="panduan-card">
-
-                    <div class="card-icon orange">
-                        <i class="bi bi-arrow-repeat"></i>
-                    </div>
-
-                    <h5>
-                        Proses Penanganan Laporan
-                    </h5>
-
-                    <div class="timeline-box">
-
-                        <div class="timeline-item">
-                            <span class="timeline-dot pending"></span>
-
-                            <div>
-                                <b>Pending</b>
-
-                                <p>
-                                    Laporan berhasil dikirim dan menunggu pemeriksaan.
-                                </p>
-                            </div>
-
-                        </div>
-
-                        <div class="timeline-item">
-                            <span class="timeline-dot proses"></span>
-
-                            <div>
-                                <b>Proses</b>
-
-                                <p>
-                                    Guru BK sedang menindaklanjuti laporan.
-                                </p>
-                            </div>
-
-                        </div>
-
-                        <div class="timeline-item">
-                            <span class="timeline-dot selesai"></span>
-
-                            <div>
-                                <b>Selesai</b>
-
-                                <p>
-                                    Laporan telah selesai ditangani.
-                                </p>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- PRIVASI -->
-            <div class="col-md-6">
-
-                <div class="panduan-card">
-
-                    <div class="card-icon red">
-                        <i class="bi bi-shield-lock"></i>
-                    </div>
-
-                    <h5>
-                        Privasi dan Keamanan
-                    </h5>
-
-                    <p class="desc">
-                        Semua laporan siswa akan dijaga kerahasiaannya dan hanya dapat diakses oleh pihak terkait seperti Guru BK atau administrator sekolah.
-                    </p>
-
-                    <div class="privacy-box">
-
-                        <i class="bi bi-check-circle-fill"></i>
-
-                        Data laporan aman dan tidak dibagikan ke pihak luar.
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- KONTAK -->
-            <div class="col-12">
-
-                <div class="contact-card">
-
-                    <div class="contact-left">
-
-                        <div class="contact-icon">
-                            <i class="bi bi-chat-dots"></i>
-                        </div>
-
+                <div class="jenis-list">
+                    <div class="jenis-item">
+                        <span class="jenis-emoji">🛡️</span>
                         <div>
-
-                            <h5>
-                                Butuh Bantuan?
-                            </h5>
-
-                            <p>
-                                Hubungi Guru BK apabila mengalami kendala saat menggunakan sistem.
-                                081352655551
-                            </p>
-
+                            <p class="jenis-name">Bullying / Perundungan</p>
+                            <p class="jenis-desc">Intimidasi fisik maupun verbal</p>
                         </div>
-
                     </div>
-
-                    <a href="/chatbot" class="btn-chatbot">
-
-                        <i class="bi bi-robot"></i>
-
-                        Buka Chatbot
-
-                    </a>
-
+                    <div class="jenis-item">
+                        <span class="jenis-emoji">📚</span>
+                        <div>
+                            <p class="jenis-name">Masalah Akademik</p>
+                            <p class="jenis-desc">Kesulitan belajar atau nilai</p>
+                        </div>
+                    </div>
+                    <div class="jenis-item">
+                        <span class="jenis-emoji">🏫</span>
+                        <div>
+                            <p class="jenis-name">Fasilitas Sekolah</p>
+                            <p class="jenis-desc">Kerusakan sarana prasarana</p>
+                        </div>
+                    </div>
+                    <div class="jenis-item">
+                        <span class="jenis-emoji">💬</span>
+                        <div>
+                            <p class="jenis-name">Konseling Pribadi</p>
+                            <p class="jenis-desc">Masalah personal atau sosial</p>
+                        </div>
+                    </div>
+                    <div class="jenis-item">
+                        <span class="jenis-emoji">📋</span>
+                        <div>
+                            <p class="jenis-name">Lainnya</p>
+                            <p class="jenis-desc">Permasalahan lain terkait sekolah</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
+            {{-- CARD 3: PROSES PENANGANAN --}}
+            <div class="pan-card">
+                <div class="pan-card-head">
+                    <div class="pci orange"><i class="bi bi-arrow-repeat"></i></div>
+                    <div>
+                        <h5 class="pan-card-title">Proses Penanganan</h5>
+                        <p class="pan-card-sub">Alur laporan hingga selesai</p>
+                    </div>
+                </div>
+                <div class="timeline">
+                    <div class="tl-item">
+                        <div class="tl-dot tl-pending">
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                        </div>
+                        <div class="tl-body">
+                            <p class="tl-status" style="color:#dc2626">Pending</p>
+                            <p class="tl-desc">Laporan berhasil dikirim dan menunggu pemeriksaan oleh Guru BK.</p>
+                        </div>
+                    </div>
+                    <div class="tl-connector"></div>
+                    <div class="tl-item">
+                        <div class="tl-dot tl-proses">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+                        <div class="tl-body">
+                            <p class="tl-status" style="color:#d97706">Proses</p>
+                            <p class="tl-desc">Guru BK sedang menindaklanjuti dan akan memberikan tanggapan.</p>
+                        </div>
+                    </div>
+                    <div class="tl-connector"></div>
+                    <div class="tl-item">
+                        <div class="tl-dot tl-selesai">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="tl-body">
+                            <p class="tl-status" style="color:#16a34a">Selesai</p>
+                            <p class="tl-desc">Laporan telah selesai ditangani dan mendapat respons dari Guru BK.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- CARD 4: PRIVASI --}}
+            <div class="pan-card">
+                <div class="pan-card-head">
+                    <div class="pci red"><i class="bi bi-shield-lock"></i></div>
+                    <div>
+                        <h5 class="pan-card-title">Privasi & Keamanan</h5>
+                        <p class="pan-card-sub">Data kamu aman bersama kami</p>
+                    </div>
+                </div>
+                <p class="pan-desc">
+                    Semua laporan siswa dijaga kerahasiaannya dan hanya dapat diakses oleh pihak terkait seperti Guru BK atau administrator sekolah.
+                </p>
+                <div class="privacy-list">
+                    <div class="privacy-item">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>Data laporan aman & tidak dibagikan ke pihak luar</span>
+                    </div>
+                    <div class="privacy-item">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>Hanya Guru BK & admin yang dapat melihat laporan</span>
+                    </div>
+                    <div class="privacy-item">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <span>Identitas pelapor dijaga kerahasiaannya</span>
+                    </div>
+                </div>
             </div>
 
         </div>
 
-    </div>
+        {{-- CONTACT CARD --}}
+        <div class="contact-card">
+            <div class="contact-left">
+                <div class="contact-icon">
+                    <i class="bi bi-headset"></i>
+                </div>
+                <div>
+                    <h5 class="contact-title">Butuh Bantuan?</h5>
+                    <p class="contact-desc">Hubungi Guru BK jika mengalami kendala saat menggunakan sistem.</p>
+                    <p class="contact-phone">
+                        <i class="bi bi-telephone-fill"></i>
+                        081352655551
+                    </p>
+                </div>
+            </div>
+            <a href="/chatbot" class="btn-chatbot">
+                <i class="bi bi-robot"></i>
+                Tanya AI Assistant
+            </a>
+        </div>
+
+    </div>{{-- end pan-scroll --}}
 
 </div>
 
 <style>
 
-/* =========================================================
+/* =============================================
    PAGE
-========================================================= */
-
-.panduan-page{
-    width:100%;
-    min-height:100%;
+============================================= */
+.pan-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    gap: 14px;
 }
 
-/* =========================================================
-   BODY
-========================================================= */
-
-body{
-    background:#f4f6f9;
-    overflow-x:hidden;
+/* =============================================
+   HEADER FIX
+============================================= */
+.pan-header {
+    flex-shrink: 0;
+    background: #fff;
+    border: 1px solid #edf1f5;
+    border-radius: 18px;
+    padding: 18px 22px;
+    box-shadow: 0 2px 10px rgba(15,23,42,.04);
 }
 
-/* =========================================================
-   FIX HEADER
-========================================================= */
-
-.panduan-header{
-    position:sticky;
-    top:0;
-
-    z-index:50;
-
-    background:rgba(255,255,255,0.96);
-
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-
-    border-radius:18px;
-
-    padding:24px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-bottom:24px;
-
-    border:1px solid #eceff3;
-
-    box-shadow:
-    0 2px 10px rgba(15,23,42,0.04);
+.pan-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
-/* =========================================================
-   HEADER TEXT
-========================================================= */
-
-.header-title{
-    font-size:22px;
-    font-weight:600;
-    color:#111827;
-    margin-bottom:6px;
+.pan-header-icon {
+    width: 44px; height: 44px;
+    border-radius: 13px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #16a34a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
 }
 
-.header-subtitle{
-    color:#6b7280;
-    font-size:13px;
-    margin:0;
-    line-height:1.7;
+.pan-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 2px;
 }
 
-/* =========================================================
-   HEADER ICON
-========================================================= */
-
-.header-icon{
-    width:60px;
-    height:60px;
-
-    border-radius:18px;
-
-    background:#ecfdf3;
-    color:#16a34a;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:24px;
-
-    flex-shrink:0;
+.pan-sub {
+    font-size: 12px;
+    color: #9ca3af;
+    margin: 0;
 }
 
-/* =========================================================
-   CONTENT
-========================================================= */
-
-.panduan-container{
-    width:100%;
+/* =============================================
+   SCROLL
+============================================= */
+.pan-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+    padding-bottom: 32px;
+    scrollbar-width: thin;
+    scrollbar-color: #e5e7eb transparent;
 }
 
-/* =========================================================
+.pan-scroll::-webkit-scrollbar { width: 5px; }
+.pan-scroll::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 99px; }
+
+/* =============================================
+   GRID
+============================================= */
+.pan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+/* =============================================
    CARD
-========================================================= */
-
-.panduan-card{
-    background:white;
-
-    border-radius:20px;
-
-    padding:24px;
-
-    border:1px solid #eceff3;
-
-    height:100%;
-
-    transition:.25s;
-
-    box-shadow:
-    0 2px 12px rgba(15,23,42,0.04);
+============================================= */
+.pan-card {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #edf1f5;
+    padding: 22px;
+    box-shadow: 0 2px 10px rgba(15,23,42,.04);
+    transition: .25s;
 }
 
-.panduan-card:hover{
-    transform:translateY(-3px);
-
-    box-shadow:
-    0 10px 24px rgba(15,23,42,0.08);
+.pan-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(15,23,42,.07);
+    border-color: #d1fae5;
 }
 
-/* =========================================================
-   ICON
-========================================================= */
-
-.card-icon{
-    width:54px;
-    height:54px;
-
-    border-radius:16px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:22px;
-
-    margin-bottom:18px;
+.pan-card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f3f4f6;
 }
 
-.green{
-    background:#ecfdf3;
-    color:#16a34a;
+.pci {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    flex-shrink: 0;
 }
 
-.blue{
-    background:#eff6ff;
-    color:#2563eb;
+.green  { background: #f0fdf4; color: #16a34a; }
+.blue   { background: #eff6ff; color: #2563eb; }
+.orange { background: #fff7ed; color: #ea580c; }
+.red    { background: #fef2f2; color: #dc2626; }
+
+.pan-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 2px;
 }
 
-.orange{
-    background:#fff7ed;
-    color:#ea580c;
+.pan-card-sub {
+    font-size: 11px;
+    color: #9ca3af;
+    margin: 0;
 }
 
-.red{
-    background:#fef2f2;
-    color:#dc2626;
+/* STEP LIST */
+.step-list { display: flex; flex-direction: column; gap: 10px; }
+
+.step-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.6;
 }
 
-/* =========================================================
-   TEXT
-========================================================= */
-
-.panduan-card h5{
-    font-size:18px;
-    font-weight:600;
-
-    margin-bottom:16px;
-
-    color:#111827;
+.step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #f0fdf4;
+    border: 1.5px solid #bbf7d0;
+    color: #16a34a;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
 }
 
-.panduan-card ul{
-    padding-left:18px;
-    margin:0;
+/* JENIS LIST */
+.jenis-list { display: flex; flex-direction: column; gap: 10px; }
+
+.jenis-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1px solid #f3f4f6;
+    transition: .2s;
 }
 
-.panduan-card ul li{
-    margin-bottom:10px;
+.jenis-item:hover { background: #f0fdf4; border-color: #bbf7d0; }
 
-    color:#4b5563;
+.jenis-emoji { font-size: 20px; flex-shrink: 0; }
 
-    line-height:1.8;
-    font-size:14px;
+.jenis-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 2px;
 }
 
-.desc{
-    color:#4b5563;
-
-    line-height:1.9;
-    font-size:14px;
+.jenis-desc {
+    font-size: 11px;
+    color: #9ca3af;
+    margin: 0;
 }
 
-/* =========================================================
-   TIMELINE
-========================================================= */
+/* TIMELINE */
+.timeline { display: flex; flex-direction: column; }
 
-.timeline-box{
-    margin-top:16px;
+.tl-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
 }
 
-.timeline-item{
-    display:flex;
-    gap:12px;
-
-    margin-bottom:20px;
+.tl-connector {
+    width: 2px;
+    height: 16px;
+    background: #f3f4f6;
+    margin: 4px 0 4px 15px;
+    border-radius: 2px;
 }
 
-.timeline-dot{
-    width:12px;
-    height:12px;
-
-    border-radius:50%;
-
-    margin-top:7px;
-
-    flex-shrink:0;
+.tl-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
 }
 
-.pending{
-    background:#dc2626;
+.tl-pending { background: #fef2f2; color: #dc2626; }
+.tl-proses  { background: #fffbeb; color: #d97706; }
+.tl-selesai { background: #f0fdf4; color: #16a34a; }
+
+.tl-body { padding-top: 4px; }
+
+.tl-status {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0 0 2px;
 }
 
-.proses{
-    background:#f59e0b;
+.tl-desc {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.6;
 }
 
-.selesai{
-    background:#16a34a;
+/* PRIVACY */
+.pan-desc {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.75;
+    margin: 0 0 14px;
 }
 
-.timeline-item p{
-    margin:3px 0 0;
+.privacy-list { display: flex; flex-direction: column; gap: 8px; }
 
-    font-size:13px;
-    line-height:1.7;
-
-    color:#6b7280;
+.privacy-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.5;
 }
 
-/* =========================================================
-   PRIVACY
-========================================================= */
-
-.privacy-box{
-    margin-top:18px;
-
-    background:#f9fafb;
-
-    border:1px solid #e5e7eb;
-
-    border-radius:14px;
-
-    padding:14px;
-
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    color:#374151;
-
-    font-size:14px;
-    line-height:1.7;
+.privacy-item i {
+    color: #16a34a;
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
 }
 
-.privacy-box i{
-    color:#16a34a;
+/* =============================================
+   CONTACT CARD
+============================================= */
+.contact-card {
+    background: linear-gradient(135deg, #14532d 0%, #16a34a 60%, #22c55e 100%);
+    border-radius: 18px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    box-shadow: 0 8px 24px rgba(22,163,74,.2);
+    position: relative;
+    overflow: hidden;
 }
 
-/* =========================================================
-   CONTACT
-========================================================= */
-
-.contact-card{
-    background:white;
-
-    border-radius:20px;
-
-    padding:24px;
-
-    border:1px solid #eceff3;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    flex-wrap:wrap;
-    gap:18px;
-
-    box-shadow:
-    0 2px 12px rgba(15,23,42,0.04);
+.contact-card::before {
+    content: '';
+    position: absolute;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+    top: -60px; right: -40px;
+    pointer-events: none;
 }
 
-.contact-left{
-    display:flex;
-    align-items:center;
-    gap:18px;
+.contact-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 1;
 }
 
-.contact-icon{
-    width:60px;
-    height:60px;
-
-    border-radius:18px;
-
-    background:#ecfdf3;
-    color:#16a34a;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:24px;
-
-    flex-shrink:0;
+.contact-icon {
+    width: 52px; height: 52px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.15);
+    border: 1.5px solid rgba(255,255,255,.25);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    backdrop-filter: blur(4px);
 }
 
-.contact-card h5{
-    margin-bottom:6px;
-    font-weight:600;
+.contact-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 3px;
 }
 
-.contact-card p{
-    margin:0;
-
-    color:#6b7280;
-
-    font-size:14px;
-    line-height:1.8;
+.contact-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,.8);
+    margin: 0 0 4px;
+    line-height: 1.5;
 }
 
-/* =========================================================
-   BUTTON
-========================================================= */
-
-.btn-chatbot{
-    background:#16a34a;
-    color:white;
-
-    text-decoration:none;
-
-    padding:12px 20px;
-
-    border-radius:14px;
-
-    font-size:14px;
-    font-weight:500;
-
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-    transition:.25s;
-
-    flex-shrink:0;
+.contact-phone {
+    font-size: 13px;
+    font-weight: 600;
+    color: #bbf7d0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
-.btn-chatbot:hover{
-    background:#15803d;
-
-    color:white;
-
-    transform:translateY(-2px);
+.btn-chatbot {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    color: #16a34a;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: .2s;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 14px rgba(0,0,0,.1);
 }
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+.btn-chatbot:hover {
+    background: #f0fdf4;
+    color: #15803d;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,.12);
+}
 
-@media(max-width:768px){
+/* =============================================
+   RESPONSIVE — TABLET
+============================================= */
+@media (max-width: 1024px) and (min-width: 641px) {
+    .pan-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+}
 
-    .panduan-header{
-        flex-direction:column;
-        align-items:flex-start;
+/* =============================================
+   RESPONSIVE — MOBILE
+============================================= */
+@media (max-width: 640px) {
 
-        gap:16px;
-    }
+    .pan-header { padding: 14px 16px; border-radius: 14px; }
+    .pan-header-icon { width: 38px; height: 38px; font-size: 17px; }
+    .pan-title { font-size: 16px; }
 
-    .contact-card{
-        flex-direction:column;
-        align-items:flex-start;
-    }
+    .pan-grid { grid-template-columns: 1fr; gap: 12px; }
 
-    .contact-left{
-        align-items:flex-start;
-    }
+    .pan-card { padding: 18px 16px; border-radius: 16px; }
 
-    .btn-chatbot{
-        width:100%;
-        justify-content:center;
-    }
-
+    .contact-card { padding: 20px 18px; flex-direction: column; align-items: flex-start; }
+    .contact-left { align-items: flex-start; }
+    .btn-chatbot { width: 100%; justify-content: center; }
 }
 
 </style>

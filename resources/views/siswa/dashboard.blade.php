@@ -4,254 +4,648 @@
 
 @section('content')
 
-<div class="dashboard-wrapper">
+<style>
 
-    <!-- HEADER FIX -->
-    <div class="dashboard-header">
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-        <div>
+:root{
+    --g1: #0a7f2e;
+    --g2: #16a34a;
+    --g3: #22c55e;
+    --border: #e8edf0;
+    --text: #111827;
+    --soft: #6b7280;
+    --surface: #ffffff;
+    --bg: #f4f7f5;
+}
+
+.db * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.db {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: dbFade .35s ease both;
+}
+
+@keyframes dbFade {
+    from { opacity:0; transform:translateY(8px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+.db-topbar {
+    flex-shrink: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 16px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 10px rgba(15,23,42,.04);
+}
+
+.topbar-left h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0 0 2px;
+    letter-spacing: -.3px;
+}
+
+.topbar-left p { font-size: 12.5px; color: var(--soft); margin: 0; }
+
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+
+.date-chip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #f4f7f5;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 13px;
+    font-size: 12px;
+    color: #4b5563;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.date-chip i { color: var(--g2); }
+
+/* NOTIF BUTTON */
+.notif-btn {
+    width: 40px; height: 40px;
+    border-radius: 11px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #374151;
+    text-decoration: none;
+    position: relative;
+    transition: .2s;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.notif-btn:hover { background: #f4f7f5; color: var(--g1); }
+
+.notif-dot {
+    position: absolute;
+    top: -4px; right: -4px;
+    width: 17px; height: 17px;
+    border-radius: 50%;
+    background: #ef4444;
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
+.profile-img {
+    width: 40px; height: 40px;
+    border-radius: 11px;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    transition: .2s;
+}
+
+.profile-img:hover { border-color: var(--g2); transform: scale(1.05); }
+
+.notif-dropdown {
+    width: 300px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(15,23,42,.1);
+    padding: 8px 0;
+    overflow: hidden;
+}
+
+/* =========================================================
+   SCROLL
+========================================================= */
+.db-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-right: 2px;
+    min-height: 0;
+}
+
+.db-scroll::-webkit-scrollbar { width: 5px; }
+.db-scroll::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 20px; }
+
+/* =========================================================
+   HERO
+========================================================= */
+.db-hero {
+    background: linear-gradient(135deg, var(--g1) 0%, var(--g2) 55%, var(--g3) 100%);
+    border-radius: 18px;
+    padding: 22px 26px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.db-hero::before {
+    content: '';
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+    top: -70px; right: -30px;
+}
+
+.db-hero::after {
+    content: '';
+    position: absolute;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.05);
+    bottom: -40px; right: 120px;
+}
+
+.hero-text { position: relative; z-index: 1; }
+.hero-text h3 { font-size: 17px; font-weight: 800; margin: 0 0 4px; letter-spacing: -.2px; }
+.hero-text p  { font-size: 12.5px; opacity: .85; margin: 0; }
+
+.hero-action { position: relative; z-index: 1; flex-shrink: 0; }
+
+.btn-lapor {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background: white;
+    color: var(--g1);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: .2s;
+    box-shadow: 0 4px 14px rgba(0,0,0,.12);
+}
+
+.btn-lapor:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.15); color: var(--g1); }
+
+/* =========================================================
+   METRICS
+========================================================= */
+.metrics-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+
+.metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
+    transition: .2s;
+    box-shadow: 0 2px 8px rgba(15,23,42,.03);
+}
+
+.metric-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(15,23,42,.07); }
+
+.metric-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+
+.metric-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+
+.ic-green { background: #dcfce7; color: var(--g1); }
+.ic-amber { background: #fef3c7; color: #b45309; }
+.ic-blue  { background: #dbeafe; color: #1d4ed8; }
+.ic-purple { background: #f3e8ff; color: #7c3aed; }
+
+.metric-label { font-size: 11.5px; color: var(--soft); font-weight: 500; margin-bottom: 4px; }
+.metric-num   { font-size: 30px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+.metric-sub   { font-size: 11px; color: #9ca3af; }
+
+.mn-green  { color: var(--g1); }
+.mn-amber  { color: #d97706; }
+.mn-blue   { color: #2563eb; }
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+.db-progress {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 20px;
+    box-shadow: 0 2px 8px rgba(15,23,42,.03);
+}
+
+.prog-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.prog-label { font-size: 13px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 7px; }
+.prog-label i { color: var(--g2); }
+.prog-pct { font-size: 13px; font-weight: 700; color: var(--g1); }
+.prog-bar-wrap { height: 8px; background: #e8f5eb; border-radius: 99px; overflow: hidden; }
+.prog-bar-fill { height: 100%; background: linear-gradient(90deg,var(--g1),var(--g3)); border-radius: 99px; transition: width .8s ease; }
+
+/* =========================================================
+   CONTENT GRID
+========================================================= */
+.db-content { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.db-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(15,23,42,.03);
+}
+
+.db-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 18px;
+    border-bottom: 1px solid #f1f5f2;
+}
+
+.db-card-head-left h5 { font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 2px; }
+.db-card-head-left small { font-size: 11.5px; color: var(--soft); }
+
+.db-card-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+
+.db-card-body { padding: 12px 16px; }
+
+/* =========================================================
+   LAPORAN ITEM
+========================================================= */
+.lap-item {
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #f0f4f1;
+    background: #fafcfa;
+    margin-bottom: 10px;
+    transition: .2s;
+}
+
+.lap-item:last-child { margin-bottom: 0; }
+.lap-item:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,.05); border-color: #d4e8d8; }
+
+.lap-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+.lap-judul { font-size: 13px; font-weight: 700; color: var(--text); margin: 0; line-height: 1.4; }
+.lap-badge { background: #dcfce7; color: var(--g1); border-radius: 20px; padding: 3px 9px; font-size: 10.5px; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+.lap-desc  { font-size: 12px; color: var(--soft); margin: 0 0 8px; line-height: 1.6; }
+.lap-foot  { display: flex; align-items: center; gap: 6px; }
+
+.st { padding: 3px 10px; border-radius: 20px; font-size: 10.5px; font-weight: 700; }
+.st-selesai { background: #dcfce7; color: #15803d; }
+.st-proses  { background: #fef3c7; color: #b45309; }
+.st-pending { background: #fee2e2; color: #dc2626; }
+
+/* =========================================================
+   KALENDER BK
+========================================================= */
+.kal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.kal-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.kal-nav button {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    color: #6b7280;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.kal-nav button:hover { background: #f0fdf4; color: var(--g1); border-color: #bbf7d0; }
+
+.kal-month {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    min-width: 110px;
+    text-align: center;
+}
+
+.kal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+}
+
+.kal-day-name {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #9ca3af;
+    padding: 4px 0;
+    text-transform: uppercase;
+}
+
+.kal-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #374151;
+    cursor: default;
+    transition: .15s;
+    position: relative;
+}
+
+.kal-day.empty { background: transparent; }
+.kal-day.other { color: #d1d5db; }
+.kal-day:not(.empty):not(.other):hover { background: #f0fdf4; color: var(--g1); }
+.kal-day.today { background: var(--g1); color: white; font-weight: 700; box-shadow: 0 3px 8px rgba(10,127,46,.3); }
+.kal-day.has-event { font-weight: 700; }
+.kal-day.has-event::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--g2);
+}
+.kal-day.today::after { background: white; }
+
+.kal-events {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.kal-event-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.kal-event-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--g2);
+    flex-shrink: 0;
+}
+
+.kal-event-name { font-weight: 600; color: #15803d; flex: 1; }
+.kal-event-time { font-size: 11px; color: #9ca3af; }
+
+.kal-empty-event {
+    text-align: center;
+    padding: 12px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+.empty-state { text-align: center; padding: 32px 16px; color: #9ca3af; font-size: 13px; }
+.empty-state i { font-size: 32px; display: block; margin-bottom: 8px; opacity: .4; }
+
+/* =========================================================
+   CHATBOT BTN
+========================================================= */
+.chatbot-btn {
+    position: fixed;
+    right: 22px; bottom: 22px;
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--g1), var(--g2));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 22px;
+    z-index: 999;
+    box-shadow: 0 8px 24px rgba(10,127,46,.3);
+    transition: .25s;
+}
+
+.chatbot-btn:hover { transform: translateY(-3px) scale(1.06); box-shadow: 0 14px 30px rgba(10,127,46,.35); color: white; }
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media(min-width:769px) and (max-width:1024px){
+    .metrics-row { gap: 10px; }
+    .metric-num { font-size: 24px; }
+    .db-content { grid-template-columns: 1fr; }
+    .db-topbar { padding: 14px 18px; }
+    .topbar-left h2 { font-size: 18px; }
+    .date-chip { display: none; }
+}
+
+@media(max-width:768px){
+    .db { gap: 12px; }
+    .db-topbar { padding: 12px 16px; border-radius: 14px; }
+    .topbar-left h2 { font-size: 17px; }
+    .date-chip { display: none; }
+    .db-hero { padding: 16px 18px; border-radius: 14px; }
+    .db-hero::before, .db-hero::after { display: none; }
+    .hero-text h3 { font-size: 14px; }
+    .hero-text p { font-size: 11.5px; }
+    .btn-lapor { padding: 8px 14px; font-size: 12px; }
+    .metrics-row { grid-template-columns: repeat(3,1fr); gap: 8px; }
+    .metric-card { padding: 13px 10px; }
+    .metric-num { font-size: 22px; }
+    .metric-label { font-size: 10.5px; }
+    .metric-sub { display: none; }
+    .metric-icon { width: 34px; height: 34px; font-size: 15px; border-radius: 9px; }
+    .metric-top { margin-bottom: 6px; }
+    .db-progress { padding: 14px 16px; }
+    .db-content { grid-template-columns: 1fr; }
+    .db-card-head { padding: 13px 14px; }
+    .db-card-body { padding: 10px 12px; }
+    .lap-item { padding: 10px; }
+    .lap-judul { font-size: 12.5px; }
+    .lap-desc { font-size: 11.5px; }
+    .chatbot-btn { width: 48px; height: 48px; font-size: 20px; right: 14px; bottom: 14px; }
+}
+
+@media(max-width:400px){
+    .metric-num { font-size: 18px; }
+    .metric-card { padding: 10px 8px; }
+    .hero-action { display: none; }
+}
+
+</style>
+
+<div class="db">
+
+    {{-- TOPBAR --}}
+    <div class="db-topbar">
+        <div class="topbar-left">
             <h2>Dashboard</h2>
-            <p>Ringkasan laporan dan notifikasi terbaru</p>
+            <p>Ringkasan laporan dan jadwal konseling</p>
         </div>
-
-        <div class="header-right">
-
-            <!-- DATE -->
+        <div class="topbar-right">
             <div class="date-chip">
                 <i class="bi bi-calendar3"></i>
-
                 {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
             </div>
 
-            <!-- NOTIF -->
+            {{-- NOTIF DROPDOWN --}}
             <div class="dropdown">
-
                 <a href="#"
                    class="notif-btn"
-                   data-bs-toggle="dropdown">
-
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false"
+                   id="notifBtn"
+                   onclick="markNotifRead()">
                     <i class="bi bi-bell"></i>
-
-                    <span id="notif-count"
-                          class="notif-dot"
-                          style="display:none;">
-
-                        0
-
-                    </span>
-
+                    <span id="notif-count" class="notif-dot" style="display:none;">0</span>
                 </a>
-
-                <ul id="notif-list"
-                    class="dropdown-menu dropdown-menu-end notif-dropdown">
-
-                    <li class="dropdown-header">
-                        Notifikasi
-                    </li>
-
+                <ul id="notif-list" class="dropdown-menu dropdown-menu-end notif-dropdown">
+                    <li><span class="dropdown-item-text text-muted" style="font-size:13px;">Memuat...</span></li>
                 </ul>
-
             </div>
 
-            <!-- PROFILE -->
-            <a href="{{ auth()->user()->role == 'guru_bk'
-                ? '/guru/profil'
-                : '/siswa/profil' }}">
-
+            {{-- PROFILE --}}
+            <a href="{{ auth()->user()->role == 'guru_bk' ? '/guru/profil' : '/siswa/profil' }}">
                 <img src="{{ auth()->user()->foto
                     ? asset('storage/' . auth()->user()->foto)
                     : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}"
-                    class="profile-img">
-
+                    class="profile-img" alt="Profil">
             </a>
-
         </div>
-
     </div>
 
-    <!-- SCROLL AREA -->
-    <div class="dashboard-scroll">
+    {{-- SCROLL --}}
+    <div class="db-scroll">
 
-        <!-- METRICS -->
-        <div class="metrics-grid">
-
-            <!-- TOTAL -->
-            <div class="metric-card">
-
-                <div class="metric-top">
-
-                    <div>
-
-                        <div class="metric-title">
-                            Total Laporan
-                        </div>
-
-                        <div class="metric-number text-success"
-                             id="total-laporan">
-
-                            {{ $total ?? 0 }}
-
-                        </div>
-
-                        <div class="metric-desc">
-                            Semua laporan yang dikirim
-                        </div>
-
-                    </div>
-
-                    <div class="metric-icon green-soft">
-                        <i class="bi bi-journal-text"></i>
-                    </div>
-
-                </div>
-
+        {{-- HERO --}}
+        <div class="db-hero">
+            <div class="hero-text">
+                <h3>Selamat datang, {{ auth()->user()->name }} 👋</h3>
+                <p>Pantau status laporan kamu dan sampaikan permasalahan baru</p>
             </div>
-
-            <!-- PROSES -->
-            <div class="metric-card">
-
-                <div class="metric-top">
-
-                    <div>
-
-                        <div class="metric-title">
-                            Dalam Proses
-                        </div>
-
-                        <div class="metric-number text-warning"
-                             id="laporan-proses">
-
-                            {{ $proses ?? 0 }}
-
-                        </div>
-
-                        <div class="metric-desc">
-                            Sedang ditangani Guru BK
-                        </div>
-
-                    </div>
-
-                    <div class="metric-icon orange-soft">
-                        <i class="bi bi-clock-history"></i>
-                    </div>
-
-                </div>
-
+            <div class="hero-action">
+                <a href="/buat-laporan" class="btn-lapor">
+                    <i class="bi bi-plus-circle-fill"></i>
+                    Buat Laporan
+                </a>
             </div>
-
-            <!-- SELESAI -->
-            <div class="metric-card">
-
-                <div class="metric-top">
-
-                    <div>
-
-                        <div class="metric-title">
-                            Selesai
-                        </div>
-
-                        <div class="metric-number text-primary"
-                             id="laporan-selesai">
-
-                            {{ $selesai ?? 0 }}
-
-                        </div>
-
-                        <div class="metric-desc">
-                            Laporan telah selesai
-                        </div>
-
-                    </div>
-
-                    <div class="metric-icon blue-soft">
-                        <i class="bi bi-check-circle"></i>
-                    </div>
-
-                </div>
-
-            </div>
-
         </div>
 
-        <div class="progress-card">
-
-    <div class="progress-header">
-
-        <span>Progress Penyelesaian</span>
-
-        <span>
-            {{ $total > 0 ? round(($selesai / $total) * 100) : 0 }}%
-        </span>
-
-    </div>
-
-    <div class="progress mt-2">
-
-        <div
-            class="progress-bar bg-success"
-            style="
-            width:
-            {{ $total > 0 ? round(($selesai / $total) * 100) : 0 }}%;
-        ">
+        {{-- METRICS --}}
+        <div class="metrics-row">
+            <div class="metric-card">
+                <div class="metric-top">
+                    <div class="metric-icon ic-green"><i class="bi bi-journal-text"></i></div>
+                </div>
+                <div class="metric-label">Total Laporan</div>
+                <div class="metric-num mn-green" id="total-laporan">{{ $total ?? 0 }}</div>
+                <div class="metric-sub">Semua laporan terkirim</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-top">
+                    <div class="metric-icon ic-amber"><i class="bi bi-clock-history"></i></div>
+                </div>
+                <div class="metric-label">Dalam Proses</div>
+                <div class="metric-num mn-amber" id="laporan-proses">{{ $proses ?? 0 }}</div>
+                <div class="metric-sub">Ditangani Guru BK</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-top">
+                    <div class="metric-icon ic-blue"><i class="bi bi-check-circle"></i></div>
+                </div>
+                <div class="metric-label">Selesai</div>
+                <div class="metric-num mn-blue" id="laporan-selesai">{{ $selesai ?? 0 }}</div>
+                <div class="metric-sub">Laporan telah selesai</div>
+            </div>
         </div>
 
-    </div>
+        {{-- PROGRESS --}}
+        @php $pct = ($total ?? 0) > 0 ? round((($selesai ?? 0) / $total) * 100) : 0; @endphp
+        <div class="db-progress">
+            <div class="prog-head">
+                <span class="prog-label"><i class="bi bi-graph-up-arrow"></i> Progress Penyelesaian</span>
+                <span class="prog-pct">{{ $pct }}%</span>
+            </div>
+            <div class="prog-bar-wrap">
+                <div class="prog-bar-fill" style="width:{{ $pct }}%"></div>
+            </div>
+        </div>
 
-</div>
+        {{-- CONTENT GRID --}}
+        <div class="db-content">
 
-        <!-- CONTENT -->
-        <div class="content-grid">
-
-            <!-- LAPORAN -->
-            <div class="content-card">
-
-                <div class="card-header-custom">
-
-                    <div>
+            {{-- LAPORAN TERBARU --}}
+            <div class="db-card">
+                <div class="db-card-head">
+                    <div class="db-card-head-left">
                         <h5>Laporan Terbaru</h5>
-                        <small>Laporan siswa terbaru</small>
+                        <small>Laporan yang baru dikirim</small>
                     </div>
-
-                    <div class="card-icon green-soft">
+                    <div class="db-card-icon ic-green">
                         <i class="bi bi-file-earmark-text"></i>
                     </div>
-
                 </div>
-
-                <div id="laporan-terbaru">
-
-                    <div class="empty-state">
-                        Loading...
+                <div class="db-card-body">
+                    <div id="laporan-terbaru">
+                        <div class="empty-state"><i class="bi bi-hourglass-split"></i>Memuat...</div>
                     </div>
-
                 </div>
-
             </div>
 
-            <!-- NOTIF -->
-            <div class="content-card">
-
-                <div class="card-header-custom">
-
-                    <div>
-                        <h5>Notifikasi</h5>
-                        <small>Update terbaru dari sistem</small>
+            {{-- KALENDER JADWAL BK --}}
+            <div class="db-card">
+                <div class="db-card-head">
+                    <div class="db-card-head-left">
+                        <h5>Jadwal Konseling BK</h5>
+                        <small>Kalender & agenda konseling</small>
                     </div>
-
-                    <div class="card-icon blue-soft">
-                        <i class="bi bi-bell"></i>
+                    <div class="db-card-icon ic-purple">
+                        <i class="bi bi-calendar3-week"></i>
                     </div>
-
                 </div>
-
-                <div id="notif-dashboard">
-
-                    <div class="empty-state">
-                        Loading...
+                <div class="db-card-body">
+                    <div class="kal-header">
+                        <div class="kal-nav">
+                            <button onclick="kalPrev()"><i class="bi bi-chevron-left"></i></button>
+                            <span class="kal-month" id="kalMonth"></span>
+                            <button onclick="kalNext()"><i class="bi bi-chevron-right"></i></button>
+                        </div>
                     </div>
-
+                    <div class="kal-grid" id="kalGrid"></div>
+                    <div class="kal-events" id="kalEvents"></div>
                 </div>
-
             </div>
 
         </div>
@@ -260,735 +654,198 @@
 
 </div>
 
-<!-- CHATBOT -->
-<a href="/chatbot" class="chatbot-btn">
+{{-- CHATBOT FLOAT --}}
+<a href="/chatbot" class="chatbot-btn" title="Chatbot AI">
     <i class="bi bi-robot"></i>
 </a>
 
 <script>
 
-// ================= LAPORAN =================
-function loadLaporan() {
+/* =========================================================
+   NOTIF — badge berkurang saat dibuka
+========================================================= */
+const CSRF = document.querySelector('meta[name="csrf-token"]')?.content || '';
+let unreadCount = 0;
 
-    fetch('/laporan-terbaru')
-
-    .then(res => res.json())
-
-    .then(data => {
-
-        let html = '';
-
-        if (!data || data.length === 0) {
-
-            html = `
-                <div class="empty-state">
-                    Belum ada laporan
-                </div>
-            `;
-
-        } else {
-
-            data.forEach(l => {
-
-                html += `
-                <div class="list-card">
-
-                    <div class="list-top">
-
-                        <h6>${l.judul}</h6>
-
-                        <span class="badge-soft">${l.kategori ?? 'Laporan'}
-                        </span>
-
-                    </div>
-
-                    <p>
-                        ${(l.deskripsi ?? '').substring(0,90)}...
-                    </p>
-
-                    <div class="list-footer mt-2">
-                        <span class="status status-${l.status}">${l.status}
-                        </span>
-
-                    </div>
-
-                </div>
-                `;
-            });
-
-        }
-
-        document.getElementById('laporan-terbaru').innerHTML = html;
-
-    });
-
-}
-
-// ================= NOTIF =================
-function loadNotifDashboard() {
-
-    fetch('/notif-terbaru')
-
-    .then(res => res.json())
-
-    .then(data => {
-
-        let html = '';
-
-        if (!data || data.length === 0) {
-
-            html = `
-                <div class="empty-state">
-                    Tidak ada notifikasi
-                </div>
-            `;
-
-        } else {
-
-            data.forEach(n => {
-
-                let badgeClass = 'notif-blue';
-
-                if(n.status === 'selesai'){
-                    badgeClass = 'notif-green';
-                }
-
-                html += `
-                    <div class="${badgeClass}">
-
-                        <div class="notif-title">
-                            ${n.pesan}
-                        </div>
-
-                    </div>
-                `;
-
-            });
-
-        }
-
-        document.getElementById('notif-dashboard').innerHTML = html;
-
-    });
-
-}
-
-// ================= REALTIME =================
-function loadRealtimeDashboard() {
-
-    fetch('/dashboard-realtime')
-
-    .then(res => res.json())
-
-    .then(data => {
-
-        document.getElementById('total-laporan').innerText =
-            data.total;
-
-        document.getElementById('laporan-proses').innerText =
-            data.proses;
-
-        document.getElementById('laporan-selesai').innerText =
-            data.selesai;
-
-        loadLaporan();
-        loadNotifDashboard();
-
-    });
-
-}
-
-function loadNotifDropdown(){
-
+function loadNotifDropdown() {
     fetch('/notif')
-
-    .then(res => res.json())
-
+    .then(r => r.json())
     .then(data => {
+        const badge = document.getElementById('notif-count');
+        unreadCount = data.jumlah || 0;
 
-        let html = `
-        <li class="dropdown-header">
-            Notifikasi
-        </li>
-        `;
-
-        if(data.data.length === 0){
-
-            html += `
-            <li>
-                <span class="dropdown-item-text">
-                    Tidak ada notifikasi
-                </span>
-            </li>
-            `;
-
-        }else{
-
-            data.data.forEach(n => {
-
-                html += `
-                <li>
-                    <span class="dropdown-item">
-                        ${n.pesan}
-                    </span>
-                </li>
-                `;
-            });
-
-        }
-
-        document.getElementById('notif-list').innerHTML = html;
-
-    });
-
-}
-
-// ================= NOTIF COUNT =================
-function loadNotifCount() {
-
-    fetch('/notif')
-
-    .then(res => res.json())
-
-    .then(data => {
-
-        const badge =
-            document.getElementById('notif-count');
-
-        if(data.jumlah > 0){
-
-            badge.innerText = data.jumlah;
+        if (unreadCount > 0) {
+            badge.innerText = unreadCount;
             badge.style.display = 'flex';
-
-        }else{
-
+        } else {
             badge.style.display = 'none';
-
         }
 
-    });
+        const list = document.getElementById('notif-list');
+        let html = `<li><h6 class="dropdown-header" style="font-size:12px;font-weight:700;">Notifikasi</h6></li>`;
 
+        if (!data.data || data.data.length === 0) {
+            html += `<li><span class="dropdown-item-text" style="font-size:13px;color:#9ca3af;">Tidak ada notifikasi</span></li>`;
+        } else {
+            data.data.forEach(n => {
+                html += `<li><a class="dropdown-item" href="#" style="font-size:13px;">${n.pesan}</a></li>`;
+            });
+        }
+
+        list.innerHTML = html;
+    })
+    .catch(() => {});
 }
 
-// ================= AUTO LOAD =================
-loadRealtimeDashboard();
-loadNotifDropdown();
-loadNotifCount();
+/* Saat notif dibuka → tandai sudah dibaca → badge hilang */
+function markNotifRead() {
+    if (unreadCount === 0) return;
 
-setInterval(loadRealtimeDashboard,5000);
-setInterval(loadNotifDropdown,5000);
-setInterval(loadNotifCount,5000);
+    fetch('/notif-read', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': CSRF,
+        }
+    })
+    .then(() => {
+        unreadCount = 0;
+        const badge = document.getElementById('notif-count');
+        badge.style.display = 'none';
+    })
+    .catch(() => {});
+}
+
+/* =========================================================
+   LAPORAN TERBARU
+========================================================= */
+function loadLaporan() {
+    fetch('/laporan-terbaru')
+    .then(r => r.json())
+    .then(data => {
+        const el = document.getElementById('laporan-terbaru');
+        if (!data || data.length === 0) {
+            el.innerHTML = `<div class="empty-state"><i class="bi bi-inbox"></i>Belum ada laporan</div>`;
+            return;
+        }
+        el.innerHTML = data.map(l => `
+            <div class="lap-item">
+                <div class="lap-top">
+                    <p class="lap-judul">${l.judul}</p>
+                    <span class="lap-badge">${l.kategori ?? 'Laporan'}</span>
+                </div>
+                <p class="lap-desc">${(l.deskripsi ?? '').substring(0,80)}${l.deskripsi && l.deskripsi.length > 80 ? '...' : ''}</p>
+                <div class="lap-foot">
+                    <span class="st st-${l.status}">${l.status}</span>
+                </div>
+            </div>
+        `).join('');
+    })
+    .catch(() => {
+        document.getElementById('laporan-terbaru').innerHTML =
+            `<div class="empty-state"><i class="bi bi-exclamation-circle"></i>Gagal memuat</div>`;
+    });
+}
+
+/* =========================================================
+   REALTIME METRICS
+========================================================= */
+function loadRealtime() {
+    fetch('/dashboard-realtime')
+    .then(r => r.json())
+    .then(data => {
+        document.getElementById('total-laporan').innerText   = data.total;
+        document.getElementById('laporan-proses').innerText  = data.proses;
+        document.getElementById('laporan-selesai').innerText = data.selesai;
+        loadLaporan();
+    })
+    .catch(() => {});
+}
+
+/* =========================================================
+   KALENDER JADWAL BK
+========================================================= */
+
+// Jadwal konseling BK — bisa disesuaikan
+const jadwalBK = [
+    { hari: 1, nama: 'Konseling Individu', jam: '08.00 – 10.00' },  // Senin
+    { hari: 2, nama: 'Konseling Kelompok', jam: '10.00 – 12.00' },  // Selasa
+    { hari: 4, nama: 'Konseling Individu', jam: '13.00 – 15.00' },  // Kamis
+    { hari: 5, nama: 'Jam Terbuka BK',     jam: '08.00 – 09.00' },  // Jumat
+];
+
+const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const DAYS   = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+
+let kalDate = new Date();
+
+function renderKal() {
+    const year  = kalDate.getFullYear();
+    const month = kalDate.getMonth();
+    const today = new Date();
+
+    document.getElementById('kalMonth').textContent = `${MONTHS[month]} ${year}`;
+
+    const firstDay  = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    let html = DAYS.map(d => `<div class="kal-day-name">${d}</div>`).join('');
+
+    // Kosong sebelum hari pertama
+    for (let i = 0; i < firstDay; i++) {
+        html += `<div class="kal-day empty"></div>`;
+    }
+
+    for (let d = 1; d <= totalDays; d++) {
+        const date    = new Date(year, month, d);
+        const dayNum  = date.getDay(); // 0=Min ... 6=Sab
+        const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === d;
+        const hasEv   = jadwalBK.some(j => j.hari === dayNum);
+
+        let cls = 'kal-day';
+        if (isToday)  cls += ' today';
+        if (hasEv)    cls += ' has-event';
+
+        html += `<div class="${cls}">${d}</div>`;
+    }
+
+    document.getElementById('kalGrid').innerHTML = html;
+    renderEvents();
+}
+
+function renderEvents() {
+    const today  = new Date();
+    const dayNum = today.getDay();
+    const todayEvents = jadwalBK.filter(j => j.hari === dayNum);
+    const el = document.getElementById('kalEvents');
+
+    if (todayEvents.length === 0) {
+        el.innerHTML = `<div class="kal-empty-event">📅 Tidak ada jadwal konseling hari ini</div>`;
+        return;
+    }
+
+    el.innerHTML = todayEvents.map(e => `
+        <div class="kal-event-item">
+            <div class="kal-event-dot"></div>
+            <span class="kal-event-name">${e.nama}</span>
+            <span class="kal-event-time">${e.jam}</span>
+        </div>
+    `).join('');
+}
+
+function kalPrev() { kalDate.setMonth(kalDate.getMonth() - 1); renderKal(); }
+function kalNext() { kalDate.setMonth(kalDate.getMonth() + 1); renderKal(); }
+
+/* =========================================================
+   INIT
+========================================================= */
+loadRealtime();
+loadNotifDropdown();
+renderKal();
+
+setInterval(loadRealtime,      5000);
+setInterval(loadNotifDropdown, 5000);
 
 </script>
-
-<style>
-
-/* =========================================================
-   WRAPPER
-========================================================= */
-
-.dashboard-wrapper{
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-}
-
-/* =========================================================
-   HEADER FIX
-========================================================= */
-
-.dashboard-header{
-    flex-shrink:0;
-
-    position:sticky;
-    top:0;
-
-    z-index:100;
-
-    background:#ffffff;
-
-    border:1px solid #e9edf2;
-    border-radius:16px;
-
-    padding:20px 22px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:16px;
-
-    margin-bottom:16px;
-
-    box-shadow:
-    0 1px 2px rgba(15,23,42,.03),
-    0 10px 25px rgba(15,23,42,.04);
-}
-
-/* =========================================================
-   SCROLL AREA
-========================================================= */
-
-.dashboard-scroll{
-    flex:1;
-    overflow-y:auto;
-    overflow-x:hidden;
-    padding-right:4px;
-}
-
-/* =========================================================
-   HEADER TEXT
-========================================================= */
-
-.dashboard-header h2{
-    font-size:22px;
-    font-weight:600;
-    margin-bottom:4px;
-    color:#111827;
-}
-
-.dashboard-header p{
-    margin:0;
-    font-size:13px;
-    color:#9ca3af;
-}
-
-.header-right{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    flex-wrap:wrap;
-}
-
-/* =========================================================
-   DATE
-========================================================= */
-
-.date-chip{
-    background:#fafbfc;
-    border:1px solid #e9edf2;
-    border-radius:12px;
-
-    padding:9px 14px;
-
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-    font-size:12px;
-    color:#4b5563;
-}
-
-/* =========================================================
-   NOTIF
-========================================================= */
-
-.notif-btn{
-    width:42px;
-    height:42px;
-
-    border-radius:12px;
-    border:1px solid #e9edf2;
-
-    background:#fff;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    position:relative;
-
-    color:#374151;
-    text-decoration:none;
-}
-
-.notif-dot{
-    position:absolute;
-
-    top:-4px;
-    right:-4px;
-
-    width:18px;
-    height:18px;
-
-    border-radius:50%;
-
-    background:#dc3545;
-    color:#fff;
-
-    font-size:10px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-/* =========================================================
-   PROFILE
-========================================================= */
-
-.profile-img{
-    width:42px;
-    height:42px;
-
-    border-radius:50%;
-    object-fit:cover;
-
-    transition:.3s;
-}
-
-.profile-img:hover{
-    transform:scale(1.05);
-}
-
-.progress-card{
-
-    background:#fff;
-
-    border:1px solid #e9edf2;
-    border-radius:16px;
-
-    padding:18px;
-
-    margin-bottom:20px;
-
-    box-shadow:
-    0 1px 2px rgba(15,23,42,.03),
-    0 10px 25px rgba(15,23,42,.03);
-}
-
-.progress-header{
-    display:flex;
-    justify-content:space-between;
-    font-size:14px;
-    font-weight:600;
-}
-
-/* =========================================================
-   METRICS
-========================================================= */
-
-.metrics-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:16px;
-}
-
-.metric-card{
-    background:#fff;
-
-    border:1px solid #e9edf2;
-    border-radius:16px;
-
-    padding:20px;
-
-    transition:.2s;
-
-    box-shadow:
-    0 1px 2px rgba(15,23,42,.03),
-    0 10px 25px rgba(15,23,42,.03);
-}
-
-.metric-card:hover{
-    transform:translateY(-3px);
-
-    box-shadow:
-    0 12px 24px rgba(15,23,42,.08);
-}
-
-.metric-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:14px;
-}
-
-.metric-title{
-    font-size:13px;
-    color:#6b7280;
-}
-
-.metric-number{
-    font-size:28px;
-    font-weight:700;
-    margin:8px 0 4px;
-}
-
-.metric-desc{
-    font-size:12px;
-    color:#9ca3af;
-}
-
-.metric-icon{
-    width:52px;
-    height:52px;
-
-    border-radius:14px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:20px;
-}
-
-.green-soft{
-    background:#edf5f1;
-    color:#2f6f57;
-}
-
-.orange-soft{
-    background:#fbf6eb;
-    color:#c79b46;
-}
-
-.blue-soft{
-    background:#eef4f8;
-    color:#5d7fa3;
-}
-
-/* =========================================================
-   CONTENT GRID
-========================================================= */
-
-.content-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:16px;
-}
-
-/* =========================================================
-   CONTENT CARD
-========================================================= */
-
-.content-card{
-    background:#fff;
-
-    border:1px solid #e9edf2;
-    border-radius:16px;
-
-    padding:20px;
-
-    box-shadow:
-    0 1px 2px rgba(15,23,42,.03),
-    0 10px 25px rgba(15,23,42,.03);
-}
-
-/* =========================================================
-   CARD HEADER
-========================================================= */
-
-.card-header-custom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-bottom:18px;
-    padding-bottom:16px;
-
-    border-bottom:1px solid #f1f3f5;
-}
-
-.card-header-custom h5{
-    margin:0;
-    font-size:17px;
-    font-weight:700;
-}
-
-.card-header-custom small{
-    color:#9ca3af;
-}
-
-.card-icon{
-    width:44px;
-    height:44px;
-
-    border-radius:12px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-/* =========================================================
-   LIST
-========================================================= */
-
-.list-card{
-    border:1px solid #eef2f6;
-    border-radius:14px;
-
-    padding:15px;
-
-    margin-bottom:12px;
-
-    transition:.2s;
-}
-
-.list-card:hover{
-    transform:translateY(-2px);
-
-    box-shadow:
-    0 6px 16px rgba(0,0,0,.04);
-}
-
-.list-top{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-
-    margin-bottom:8px;
-}
-
-.list-top h6{
-    margin:0;
-    font-size:14px;
-    font-weight:600;
-}
-
-.list-card p{
-    margin:0;
-    font-size:13px;
-    line-height:1.7;
-    color:#6b7280;
-}
-
-.badge-soft{
-    background:#edf5f1;
-    color:#2f6f57;
-
-    border-radius:20px;
-
-    padding:5px 10px;
-
-    font-size:11px;
-    white-space:nowrap;
-}
-
-/* =========================================================
-   NOTIF
-========================================================= */
-
-.notif-blue,
-.notif-green{
-    padding:14px;
-    border-radius:12px;
-    margin-bottom:12px;
-}
-
-.notif-blue{
-    background:#eef4f8;
-    color:#35516b;
-}
-
-.notif-green{
-    background:#edf5f1;
-    color:#2f6f57;
-}
-
-/* =========================================================
-   EMPTY
-========================================================= */
-
-.empty-state{
-    text-align:center;
-    padding:40px 20px;
-    color:#9ca3af;
-}
-
-/* =========================================================
-   CHATBOT
-========================================================= */
-
-.chatbot-btn{
-    position:fixed;
-
-    right:24px;
-    bottom:24px;
-
-    width:58px;
-    height:58px;
-
-    border-radius:50%;
-
-    background:#2f6f57;
-    color:#fff;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    text-decoration:none;
-
-    font-size:24px;
-
-    z-index:999;
-}
-
-.list-footer{
-    margin-top:10px;
-}
-
-.status{
-    padding:5px 10px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:600;
-}
-
-.status-selesai{
-    background:#dcfce7;
-    color:#15803d;
-}
-
-.status-diproses{
-    background:#fef3c7;
-    color:#b45309;
-}
-
-.status-pending{
-    background:#fee2e2;
-    color:#dc2626;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:992px){
-
-    .metrics-grid{
-        grid-template-columns:1fr;
-    }
-
-    .content-grid{
-        grid-template-columns:1fr;
-    }
-
-}
-
-@media(max-width:768px){
-
-    .dashboard-header{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-    .header-right{
-        width:100%;
-    }
-
-    .date-chip{
-        width:100%;
-        justify-content:center;
-    }
-
-    .list-top{
-        flex-direction:column;
-    }
-
-}
-
-</style>
 
 @endsection

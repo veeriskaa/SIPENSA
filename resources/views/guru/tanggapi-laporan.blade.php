@@ -4,812 +4,690 @@
 
 @section('content')
 
-<div class="tanggapi-page">
+<style>
 
-    <!-- HEADER -->
-    <div class="tanggapi-header">
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-        <div>
-            <h3 class="header-title">
-                Respon Laporan
-            </h3>
+:root{
+    --g1: #0a7f2e;
+    --g2: #16a34a;
+    --g3: #22c55e;
+    --border: #e8edf0;
+    --text: #111827;
+    --soft: #6b7280;
+    --surface: #ffffff;
+}
 
-            <p class="header-subtitle">
-                Berikan tanggapan dan tindak lanjut laporan siswa
-            </p>
+.tp * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.tp {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    gap: 14px;
+    animation: tpFade .35s ease both;
+}
+
+@keyframes tpFade {
+    from { opacity:0; transform:translateY(8px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+
+/* =========================================================
+   TOPBAR — fix, tidak scroll
+========================================================= */
+
+.tp-topbar {
+    flex-shrink: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 16px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 10px rgba(15,23,42,.04);
+}
+
+.tp-topbar-left h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0 0 2px;
+    letter-spacing: -.2px;
+}
+
+.tp-topbar-left p {
+    font-size: 12px;
+    color: var(--soft);
+    margin: 0;
+}
+
+.tp-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Back button */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 11px;
+    border: 1.5px solid var(--border);
+    background: white;
+    color: #374151;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.btn-back:hover {
+    background: #f4f7f5;
+    border-color: #9ca3af;
+    color: var(--text);
+}
+
+/* =========================================================
+   SCROLL — satu-satunya yang scroll
+========================================================= */
+
+.tp-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 2px;
+    padding-bottom: 24px;
+    scrollbar-width: thin;
+    scrollbar-color: #e5e7eb transparent;
+}
+
+.tp-scroll::-webkit-scrollbar { width: 5px; }
+.tp-scroll::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 20px; }
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.tp-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 14px;
+    align-items: start;
+}
+
+/* =========================================================
+   DETAIL CARD (kiri)
+========================================================= */
+
+.detail-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(15,23,42,.04);
+    position: sticky;
+    top: 0;
+}
+
+/* Header detail */
+.detail-card-head {
+    padding: 16px 18px;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.kategori-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f0fdf4;
+    color: var(--g1);
+    border: 1px solid #bbf7d0;
+    padding: 5px 12px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-pill {
+    padding: 5px 12px;
+    border-radius: 30px;
+    font-size: 10.5px;
+    font-weight: 700;
+}
+
+.sp-pending { background: #fee2e2; color: #dc2626; }
+.sp-proses  { background: #fef3c7; color: #b45309; }
+.sp-selesai { background: #dcfce7; color: #15803d; }
+
+/* Body detail */
+.detail-card-body { padding: 18px; }
+
+.detail-judul {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.4;
+    margin: 0 0 16px;
+}
+
+/* Meta rows */
+.meta-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #f9fbf9;
+    border: 1px solid #f0f4f0;
+    border-radius: 11px;
+}
+
+.meta-row-icon {
+    width: 32px; height: 32px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.mri-green { background: #dcfce7; color: var(--g1); }
+.mri-blue  { background: #dbeafe; color: #1d4ed8; }
+.mri-amber { background: #fef3c7; color: #b45309; }
+
+.meta-row-body small {
+    font-size: 10.5px;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 1px;
+}
+
+.meta-row-body span {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* Deskripsi */
+.deskripsi-section {
+    background: #f9fbf9;
+    border: 1px solid #e8f0e8;
+    border-radius: 13px;
+    padding: 14px;
+    margin-bottom: 14px;
+}
+
+.deskripsi-section-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--g1);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 8px;
+}
+
+.deskripsi-section-head i { font-size: 12px; }
+
+.deskripsi-text {
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* Bukti */
+.bukti-section { border-radius: 13px; overflow: hidden; }
+
+.bukti-section img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+}
+
+/* =========================================================
+   FORM CARD (kanan)
+========================================================= */
+
+.form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(15,23,42,.04);
+}
+
+/* Form card head */
+.form-card-head {
+    padding: 18px 22px;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.form-card-head-left h4 {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0 0 3px;
+}
+
+.form-card-head-left p {
+    font-size: 12px;
+    color: var(--soft);
+    margin: 0;
+}
+
+.form-card-icon {
+    width: 44px; height: 44px;
+    border-radius: 13px;
+    background: #dcfce7;
+    color: var(--g1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    flex-shrink: 0;
+}
+
+/* Form body */
+.form-card-body { padding: 22px; }
+
+/* Label */
+.form-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.form-label .req { color: #ef4444; }
+
+/* Input */
+.tp-input {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 15px;
+    font-size: 14px;
+    color: var(--text);
+    background: #fafafa;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    appearance: none;
+}
+
+.tp-input:focus {
+    border-color: var(--g1);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(10,127,46,.08);
+}
+
+textarea.tp-input {
+    min-height: 180px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+select.tp-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+/* Status pills selector */
+.status-selector {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.status-opt {
+    flex: 1;
+    min-width: 100px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: .2s;
+    background: white;
+}
+
+.status-opt input[type="radio"] { display: none; }
+
+.status-opt-icon {
+    font-size: 20px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.status-opt-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    display: block;
+}
+
+.status-opt.opt-pending:has(input:checked),
+.status-opt.opt-pending:hover { border-color: #dc2626; background: #fff5f5; }
+.status-opt.opt-proses:has(input:checked),
+.status-opt.opt-proses:hover  { border-color: #d97706; background: #fffbeb; }
+.status-opt.opt-selesai:has(input:checked),
+.status-opt.opt-selesai:hover { border-color: var(--g2); background: #f0fdf4; }
+
+.opt-pending .status-opt-icon { color: #dc2626; }
+.opt-proses  .status-opt-icon { color: #d97706; }
+.opt-selesai .status-opt-icon { color: var(--g2); }
+
+/* Tips box */
+.tips-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.tips-box i { color: var(--g2); font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.tips-box p { font-size: 12px; color: #15803d; margin: 0; line-height: 1.5; }
+
+/* Action bar */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 22px;
+    border-top: 1px solid #f3f4f6;
+    background: #fafcfa;
+    flex-wrap: wrap;
+}
+
+.btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: white;
+    color: #374151;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: .2s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+}
+
+.btn-cancel:hover { background: #f4f7f5; border-color: #9ca3af; color: var(--text); }
+
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, var(--g1), var(--g2));
+    color: white;
+    font-size: 13.5px;
+    font-weight: 700;
+    transition: .25s;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    box-shadow: 0 4px 14px rgba(10,127,46,.28);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(10,127,46,.35);
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media(min-width:769px) and (max-width:1024px){
+    .tp-grid { grid-template-columns: 300px 1fr; gap: 12px; }
+    .tp-topbar { padding: 14px 18px; }
+    .detail-card { position: static; }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+    .tp { gap: 12px; }
+    .tp-topbar { padding: 12px 16px; border-radius: 14px; }
+    .tp-topbar-left h3 { font-size: 15px; }
+    .tp-breadcrumb { display: none; }
+
+    /* Grid jadi 1 kolom */
+    .tp-grid { grid-template-columns: 1fr; }
+
+    .detail-card { position: static; }
+    .form-card-body { padding: 16px; }
+    .form-actions { padding: 14px 16px; flex-direction: column; }
+    .btn-cancel, .btn-submit { width: 100%; justify-content: center; }
+
+    .status-selector { gap: 8px; }
+    .status-opt { padding: 10px 8px; }
+    .status-opt-label { font-size: 11.5px; }
+
+}
+
+@media(max-width:400px){
+    .status-opt-icon { font-size: 17px; }
+}
+
+</style>
+
+<div class="tp">
+
+    {{-- TOPBAR FIX --}}
+    <div class="tp-topbar">
+        <div class="tp-topbar-left">
+            <h3>Tanggapi Laporan</h3>
+            <p>Berikan tanggapan dan tindak lanjut laporan siswa</p>
         </div>
-
-        <div class="header-right">
-
-            <!-- DATE -->
-            <div class="date-box">
-
-                <i class="bi bi-calendar3"></i>
-
-                {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
-
-            </div>
-
-            <!-- NOTIF -->
-            <div class="notif-box">
-
-                <i class="bi bi-bell"></i>
-
-                <span class="notif-badge">
-                    {{ $notifCount ?? 0 }}
-                </span>
-
-            </div>
-
-            <!-- PROFILE -->
-            <img src="{{ auth()->user()->foto
-                ? asset('storage/' . auth()->user()->foto)
-                : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}"
-                class="profile-img">
-
+        <div class="tp-topbar-right">
+            <a href="{{ url()->previous() }}" class="btn-back">
+                <i class="bi bi-arrow-left"></i>
+                Kembali
+            </a>
         </div>
-
     </div>
 
-    <!-- SCROLL -->
-    <div class="tanggapi-scroll">
+    {{-- SCROLL AREA --}}
+    <div class="tp-scroll">
+        <div class="tp-grid">
 
-        <div class="row g-4">
+            {{-- DETAIL CARD --}}
+            <div class="detail-card">
 
-            <!-- DETAIL -->
-            <div class="col-lg-4">
+                <div class="detail-card-head">
+                    <span class="kategori-pill">
+                        <i class="bi bi-tag"></i>
+                        {{ $pengaduan->kategori }}
+                    </span>
+                    <span class="status-pill sp-{{ $pengaduan->status }}">
+                        {{ ucfirst($pengaduan->status) }}
+                    </span>
+                </div>
 
-                <div class="detail-card">
+                <div class="detail-card-body">
 
-                    <!-- BADGE -->
-                    <div class="detail-top">
+                    <h4 class="detail-judul">{{ $pengaduan->judul }}</h4>
 
-                        <span class="kategori-badge">
-                            {{ $pengaduan->kategori }}
-                        </span>
-
-                        <span class="
-                            status-badge
-                            @if($pengaduan->status == 'pending') status-danger
-                            @elseif($pengaduan->status == 'proses') status-warning
-                            @else status-success
-                            @endif
-                        ">
-                            {{ ucfirst($pengaduan->status) }}
-                        </span>
-
-                    </div>
-
-                    <!-- TITLE -->
-                    <h4 class="detail-title">
-                        {{ $pengaduan->judul }}
-                    </h4>
-
-                    <!-- META -->
-                    <div class="meta-list">
-
-                        <div class="meta-item">
-
-                            <div class="meta-icon">
-                                <i class="bi bi-person-circle"></i>
-                            </div>
-
-                            <div>
+                    <div class="meta-rows">
+                        <div class="meta-row">
+                            <div class="meta-row-icon mri-green"><i class="bi bi-person-circle"></i></div>
+                            <div class="meta-row-body">
                                 <small>Pelapor</small>
-
-                                <h6>
-                                    {{ $pengaduan->user->name ?? '-' }}
-                                </h6>
+                                <span>{{ $pengaduan->user->name ?? '-' }}</span>
                             </div>
-
                         </div>
-
-                        <div class="meta-item">
-
-                            <div class="meta-icon">
-                                <i class="bi bi-geo-alt"></i>
-                            </div>
-
-                            <div>
+                        <div class="meta-row">
+                            <div class="meta-row-icon mri-blue"><i class="bi bi-geo-alt"></i></div>
+                            <div class="meta-row-body">
                                 <small>Lokasi</small>
-
-                                <h6>
-                                    {{ $pengaduan->lokasi }}
-                                </h6>
+                                <span>{{ $pengaduan->lokasi ?? '-' }}</span>
                             </div>
-
                         </div>
-
-                        <div class="meta-item">
-
-                            <div class="meta-icon">
-                                <i class="bi bi-calendar-event"></i>
-                            </div>
-
-                            <div>
+                        <div class="meta-row">
+                            <div class="meta-row-icon mri-amber"><i class="bi bi-calendar-event"></i></div>
+                            <div class="meta-row-body">
                                 <small>Tanggal</small>
-
-                                <h6>
-                                    {{ \Carbon\Carbon::parse($pengaduan->created_at)->translatedFormat('d F Y') }}
-                                </h6>
+                                <span>{{ \Carbon\Carbon::parse($pengaduan->created_at)->translatedFormat('d F Y') }}</span>
                             </div>
-
                         </div>
-
                     </div>
 
-                    <!-- DESC -->
-                    <div class="laporan-box">
-
-                        <h6>
+                    <div class="deskripsi-section">
+                        <div class="deskripsi-section-head">
+                            <i class="bi bi-file-text"></i>
                             Deskripsi Laporan
-                        </h6>
-
-                        <p>
-                            {{ $pengaduan->deskripsi }}
-                        </p>
-
+                        </div>
+                        <p class="deskripsi-text">{{ $pengaduan->deskripsi }}</p>
                     </div>
 
-                    <!-- IMAGE -->
                     @if($pengaduan->bukti)
-
-                    <div class="bukti-box">
-
-                        <img src="{{ asset('storage/' . $pengaduan->bukti) }}"
-                             class="img-fluid">
-
+                    <div class="bukti-section">
+                        <img src="{{ asset('storage/' . $pengaduan->bukti) }}" alt="Bukti">
                     </div>
-
                     @endif
 
                 </div>
 
             </div>
 
-            <!-- FORM -->
-            <div class="col-lg-8">
+            {{-- FORM CARD --}}
+            <div class="form-card">
 
-                <div class="respon-card">
+                <div class="form-card-head">
+                    <div class="form-card-head-left">
+                        <h4>Beri Tanggapan</h4>
+                        <p>Isi respon dan perbarui status laporan</p>
+                    </div>
+                    <div class="form-card-icon">
+                        <i class="bi bi-chat-left-text"></i>
+                    </div>
+                </div>
 
-                    <!-- TOP -->
-                    <div class="respon-top">
+                <form action="{{ route('guru.respon.store', $pengaduan->id) }}" method="POST">
+                    @csrf
 
-                        <div>
+                    <div class="form-card-body">
 
-                            <h4>
-                                Tanggapi Laporan
-                            </h4>
-
-                            <p>
-                                Isi respon dan ubah status laporan
-                            </p>
-
+                        {{-- TIPS --}}
+                        <div class="tips-box">
+                            <i class="bi bi-lightbulb"></i>
+                            <p>Berikan tanggapan yang jelas dan solusi konkret agar siswa dapat memahami tindak lanjut yang akan dilakukan.</p>
                         </div>
 
-                        <div class="header-icon">
+                        {{-- TEXTAREA --}}
+                        <div class="mb-4">
+                            <label class="form-label">
+                                Isi Tanggapan <span class="req">*</span>
+                            </label>
+                            <textarea
+                                name="tanggapan"
+                                class="tp-input"
+                                placeholder="Tuliskan tindak lanjut atau respon terhadap laporan ini..."
+                                required>{{ old('tanggapan', $pengaduan->tanggapan ?? '') }}</textarea>
+                        </div>
 
-                            <i class="bi bi-chat-left-text"></i>
-
+                        {{-- STATUS --}}
+                        <div class="mb-2">
+                            <label class="form-label">
+                                Status Laporan <span class="req">*</span>
+                            </label>
+                            <div class="status-selector">
+                                <label class="status-opt opt-pending">
+                                    <input type="radio" name="status" value="pending"
+                                        {{ ($pengaduan->status ?? '') === 'pending' ? 'checked' : '' }}>
+                                    <span class="status-opt-icon">⏳</span>
+                                    <span class="status-opt-label">Pending</span>
+                                </label>
+                                <label class="status-opt opt-proses">
+                                    <input type="radio" name="status" value="proses"
+                                        {{ ($pengaduan->status ?? '') === 'proses' ? 'checked' : '' }}>
+                                    <span class="status-opt-icon">🔄</span>
+                                    <span class="status-opt-label">Diproses</span>
+                                </label>
+                                <label class="status-opt opt-selesai">
+                                    <input type="radio" name="status" value="selesai"
+                                        {{ ($pengaduan->status ?? '') === 'selesai' ? 'checked' : '' }}>
+                                    <span class="status-opt-icon">✅</span>
+                                    <span class="status-opt-label">Selesai</span>
+                                </label>
+                            </div>
                         </div>
 
                     </div>
 
-                    <!-- FORM -->
-                    <form action="{{ route('guru.respon.store', $pengaduan->id) }}"
-                          method="POST">
+                    <div class="form-actions">
+                        <a href="{{ url()->previous() }}" class="btn-cancel">
+                            <i class="bi bi-x"></i> Batal
+                        </a>
+                        <button type="submit" class="btn-submit">
+                            <i class="bi bi-send-check-fill"></i>
+                            Simpan Tanggapan
+                        </button>
+                    </div>
 
-                        @csrf
-
-                        <!-- TEXTAREA -->
-                        <div class="mb-4">
-
-                            <label class="form-label">
-                                Isi Tanggapan
-                            </label>
-
-                            <textarea
-                                name="tanggapan"
-                                rows="7"
-                                class="form-control modern-input"
-                                placeholder="Tuliskan tindak lanjut atau respon terhadap laporan ini..."
-                                required></textarea>
-
-                        </div>
-
-                        <!-- STATUS -->
-                        <div class="mb-4">
-
-                            <label class="form-label">
-                                Status Laporan
-                            </label>
-
-                            <select
-                                name="status"
-                                class="form-select modern-input"
-                                required>
-
-                                <option value="pending">
-                                    Pending
-                                </option>
-
-                                <option value="proses">
-                                    Proses
-                                </option>
-
-                                <option value="selesai">
-                                    Selesai
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        <!-- BUTTON -->
-                        <div class="button-group">
-
-                            <a href="{{ url()->previous() }}"
-                               class="btn btn-light btn-modern">
-
-                                Kembali
-
-                            </a>
-
-                            <button type="submit"
-                                    class="btn btn-success btn-modern">
-
-                                <i class="bi bi-send-check"></i>
-
-                                Simpan Respon
-
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
+                </form>
 
             </div>
 
         </div>
-
     </div>
 
 </div>
-
-<style>
-
-/* =========================================================
-   ROOT
-========================================================= */
-
-:root{
-    --bg:#f5f7fa;
-    --surface:#ffffff;
-
-    --border:#e9edf2;
-
-    --text-1:#1f2937;
-    --text-2:#4b5563;
-    --text-3:#9ca3af;
-
-    --green:#2f6f57;
-    --green-soft:#edf5f1;
-
-    --red:#c65b5b;
-    --red-soft:#fdf1f1;
-
-    --orange:#c79b46;
-    --orange-soft:#fbf6eb;
-
-    --shadow:
-    0 1px 2px rgba(15,23,42,.03),
-    0 8px 20px rgba(15,23,42,.03);
-}
-
-/* =========================================================
-   BODY
-========================================================= */
-
-body{
-    background:var(--bg);
-    overflow:hidden;
-    color:var(--text-1);
-}
-
-/* =========================================================
-   PAGE
-========================================================= */
-
-.tanggapi-page{
-    height:calc(100vh - 90px);
-
-    display:flex;
-    flex-direction:column;
-
-    gap:18px;
-}
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.tanggapi-header{
-    background:#fff;
-
-    border:1px solid var(--border);
-
-    border-radius:16px;
-
-    padding:18px 22px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    gap:16px;
-    flex-wrap:wrap;
-
-    flex-shrink:0;
-
-    box-shadow:var(--shadow);
-}
-
-.header-title{
-    font-size:24px;
-    font-weight:700;
-
-    margin-bottom:3px;
-}
-
-.header-subtitle{
-    margin:0;
-
-    color:var(--text-3);
-
-    font-size:13px;
-}
-
-.header-right{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    flex-wrap:wrap;
-}
-
-/* DATE */
-
-.date-box{
-    height:40px;
-
-    padding:0 14px;
-
-    border-radius:10px;
-
-    border:1px solid var(--border);
-
-    background:#fafbfc;
-
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-    font-size:12px;
-    color:var(--text-2);
-}
-
-/* NOTIF */
-
-.notif-box{
-    width:40px;
-    height:40px;
-
-    border-radius:10px;
-
-    border:1px solid var(--border);
-
-    background:#fff;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    position:relative;
-
-    color:var(--text-2);
-
-    font-size:17px;
-}
-
-.notif-badge{
-    position:absolute;
-
-    top:-4px;
-    right:-4px;
-
-    width:18px;
-    height:18px;
-
-    border-radius:50%;
-
-    background:#dc3545;
-    color:#fff;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:10px;
-}
-
-/* PROFILE */
-
-.profile-img{
-    width:42px;
-    height:42px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-
-    border:2px solid #f3f4f6;
-}
-
-/* =========================================================
-   SCROLL
-========================================================= */
-
-.tanggapi-scroll{
-    flex:1;
-
-    overflow-y:auto;
-    overflow-x:hidden;
-
-    padding-right:4px;
-}
-
-/* SCROLLBAR */
-
-.tanggapi-scroll::-webkit-scrollbar{
-    width:8px;
-}
-
-.tanggapi-scroll::-webkit-scrollbar-thumb{
-    background:#d1d5db;
-    border-radius:20px;
-}
-
-/* =========================================================
-   CARD
-========================================================= */
-
-.detail-card,
-.respon-card{
-    background:#fff;
-
-    border:1px solid var(--border);
-
-    border-radius:16px;
-
-    padding:22px;
-
-    box-shadow:var(--shadow);
-}
-
-/* =========================================================
-   DETAIL
-========================================================= */
-
-.detail-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    gap:10px;
-    flex-wrap:wrap;
-}
-
-/* BADGE */
-
-.kategori-badge{
-    background:var(--green-soft);
-    color:var(--green);
-
-    padding:6px 12px;
-
-    border-radius:30px;
-
-    font-size:11px;
-    font-weight:600;
-}
-
-.status-badge{
-    padding:6px 12px;
-
-    border-radius:30px;
-
-    font-size:11px;
-    font-weight:600;
-}
-
-.status-danger{
-    background:var(--red-soft);
-    color:var(--red);
-}
-
-.status-warning{
-    background:var(--orange-soft);
-    color:var(--orange);
-}
-
-.status-success{
-    background:var(--green-soft);
-    color:var(--green);
-}
-
-/* TITLE */
-
-.detail-title{
-    font-size:24px;
-    font-weight:700;
-
-    line-height:1.5;
-
-    margin-top:24px;
-    margin-bottom:24px;
-}
-
-/* META */
-
-.meta-list{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-}
-
-.meta-item{
-    display:flex;
-    align-items:flex-start;
-    gap:14px;
-}
-
-.meta-icon{
-    width:42px;
-    height:42px;
-
-    border-radius:12px;
-
-    background:#f8fafc;
-
-    border:1px solid #edf2f7;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:var(--green);
-
-    flex-shrink:0;
-}
-
-.meta-item small{
-    color:var(--text-3);
-
-    font-size:11px;
-}
-
-.meta-item h6{
-    margin-top:4px;
-    margin-bottom:0;
-
-    font-size:14px;
-    font-weight:600;
-
-    color:var(--text-1);
-}
-
-/* DESC */
-
-.laporan-box{
-    margin-top:24px;
-
-    padding-top:20px;
-
-    border-top:1px solid #f1f3f5;
-}
-
-.laporan-box h6{
-    font-size:14px;
-    font-weight:600;
-
-    margin-bottom:10px;
-}
-
-.laporan-box p{
-    font-size:13px;
-
-    line-height:1.8;
-
-    color:var(--text-2);
-
-    margin:0;
-}
-
-/* IMAGE */
-
-.bukti-box{
-    margin-top:22px;
-}
-
-.bukti-box img{
-    width:100%;
-
-    max-height:300px;
-
-    object-fit:cover;
-
-    border-radius:14px;
-
-    border:1px solid #e5e7eb;
-}
-
-/* =========================================================
-   RESPON
-========================================================= */
-
-.respon-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    gap:14px;
-
-    padding-bottom:18px;
-
-    border-bottom:1px solid #f1f3f5;
-
-    margin-bottom:24px;
-}
-
-.respon-top h4{
-    font-size:22px;
-    font-weight:700;
-
-    margin-bottom:4px;
-}
-
-.respon-top p{
-    margin:0;
-
-    font-size:13px;
-
-    color:var(--text-3);
-}
-
-/* ICON */
-
-.header-icon{
-    width:56px;
-    height:56px;
-
-    border-radius:16px;
-
-    background:var(--green-soft);
-
-    color:var(--green);
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:22px;
-
-    flex-shrink:0;
-}
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.form-label{
-    font-size:13px;
-    font-weight:600;
-
-    margin-bottom:10px;
-
-    color:#374151;
-}
-
-.modern-input{
-    border:1px solid #e5e7eb;
-
-    border-radius:12px;
-
-    padding:12px 14px;
-
-    font-size:13px;
-
-    box-shadow:none !important;
-}
-
-.modern-input:focus{
-    border-color:var(--green);
-}
-
-textarea.modern-input{
-    min-height:180px;
-    resize:none;
-}
-
-/* =========================================================
-   BUTTON
-========================================================= */
-
-.button-group{
-    display:flex;
-    justify-content:flex-end;
-    gap:12px;
-
-    flex-wrap:wrap;
-}
-
-.btn-modern{
-    border-radius:10px;
-
-    padding:10px 18px;
-
-    font-size:13px;
-    font-weight:500;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:992px){
-
-    body{
-        overflow:auto;
-    }
-
-    .tanggapi-page{
-        height:auto;
-    }
-
-    .tanggapi-scroll{
-        overflow:visible;
-    }
-
-}
-
-@media(max-width:768px){
-
-    .tanggapi-header{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-    .header-right{
-        width:100%;
-    }
-
-    .respon-top{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-    .button-group{
-        flex-direction:column;
-    }
-
-    .button-group .btn{
-        width:100%;
-    }
-
-}
-
-</style>
 
 @endsection

@@ -4,273 +4,609 @@
 
 @section('content')
 
-<div class="laporan-page">
+<style>
 
-    <!-- TOPBAR -->
-    <div class="topbar">
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-        <div>
-            <h3 class="fw-bold mb-1">Kelola Laporan</h3>
+:root{
+    --g1: #0a7f2e;
+    --g2: #16a34a;
+    --g3: #22c55e;
+    --border: #e8edf0;
+    --text: #111827;
+    --soft: #6b7280;
+    --surface: #ffffff;
+}
 
-            <small class="text-muted">
-                Kelola seluruh laporan siswa secara realtime
-            </small>
+.kl * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+/* =============================================
+   PAGE
+============================================= */
+.kl {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    animation: klFade .35s ease both;
+}
+
+@keyframes klFade {
+    from { opacity:0; transform:translateY(8px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+
+/* =============================================
+   HEADER FIX
+============================================= */
+.kl-header {
+    flex-shrink: 0;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 18px 22px;
+    box-shadow: 0 2px 10px rgba(15,23,42,.04);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.kl-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.kl-header-icon {
+    width: 44px; height: 44px;
+    border-radius: 13px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: var(--g1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.kl-title { font-size: 18px; font-weight: 700; color: var(--text); margin: 0 0 2px; }
+.kl-sub   { font-size: 12px; color: #9ca3af; margin: 0; }
+
+.kl-header-stats {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.hstat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: #f9fafb;
+    min-width: 64px;
+}
+
+.hstat-num   { font-size: 18px; font-weight: 800; line-height: 1; }
+.hstat-label { font-size: 10px; color: #9ca3af; font-weight: 500; margin-top: 2px; }
+
+.hstat-sep { width: 1px; height: 28px; background: #f3f4f6; }
+
+/* =============================================
+   FILTER FIX
+============================================= */
+.kl-filter {
+    flex-shrink: 0;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 8px rgba(15,23,42,.03);
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-select, .filter-input {
+    height: 40px;
+    border: 1.5px solid var(--border);
+    border-radius: 11px;
+    padding: 0 14px;
+    font-size: 13px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text);
+    background: #f9fafb;
+    outline: none;
+    transition: .2s;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.filter-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 34px;
+    cursor: pointer;
+    min-width: 150px;
+}
+
+.filter-input { flex: 1; min-width: 160px; }
+
+.filter-select:focus, .filter-input:focus {
+    border-color: var(--g1);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(10,127,46,.07);
+}
+
+.filter-select::placeholder, .filter-input::placeholder { color: #b0b8c1; }
+
+.btn-filter {
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 11px;
+    border: none;
+    background: linear-gradient(135deg, var(--g1), var(--g2));
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: .2s;
+    box-shadow: 0 3px 10px rgba(10,127,46,.2);
+    white-space: nowrap;
+}
+
+.btn-filter:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(10,127,46,.28); }
+
+.btn-reset {
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 11px;
+    border: 1.5px solid var(--border);
+    background: white;
+    color: var(--soft);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+.btn-reset:hover { background: #f9fafb; color: var(--text); border-color: #9ca3af; }
+
+/* Filter pills (active filter indicator) */
+.active-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+
+.filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #15803d;
+    padding: 4px 10px;
+    border-radius: 30px;
+    font-size: 11.5px;
+    font-weight: 500;
+}
+
+/* =============================================
+   SCROLL
+============================================= */
+.kl-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0;
+    padding-bottom: 24px;
+    scrollbar-width: thin;
+    scrollbar-color: #e5e7eb transparent;
+}
+
+.kl-scroll::-webkit-scrollbar { width: 5px; }
+.kl-scroll::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 99px; }
+
+/* =============================================
+   RESULT INFO
+============================================= */
+.result-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.result-count { font-size: 13px; color: #9ca3af; font-weight: 500; }
+
+/* =============================================
+   CARD LIST
+============================================= */
+.laporan-list { display: flex; flex-direction: column; gap: 12px; }
+
+.lap-card {
+    background: white;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(15,23,42,.04);
+    transition: .25s;
+    animation: cardIn .3s ease both;
+}
+
+@keyframes cardIn {
+    from { opacity:0; transform:translateY(6px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+
+.lap-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(15,23,42,.08);
+    border-color: #d1fae5;
+}
+
+/* ACCENT */
+.lap-accent { width: 5px; flex-shrink: 0; }
+.acc-pending { background: #ef4444; }
+.acc-proses  { background: #f59e0b; }
+.acc-selesai { background: #16a34a; }
+
+/* BODY */
+.lap-body { flex: 1; padding: 18px 20px; min-width: 0; }
+
+/* TOP */
+.lap-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.lap-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.lap-title { font-size: 15px; font-weight: 700; color: var(--text); margin: 0; line-height: 1.4; }
+
+.kat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.kat-bullying  { background: #fee2e2; color: #dc2626; }
+.kat-fasilitas { background: #dbeafe; color: #2563eb; }
+.kat-akademik  { background: #fef3c7; color: #d97706; }
+.kat-kekerasan { background: #f3e8ff; color: #7c3aed; }
+.kat-default   { background: #f0fdf4; color: #16a34a; }
+
+.s-badge { padding: 6px 12px; border-radius: 30px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0; }
+.s-pending { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+.s-proses  { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.s-selesai { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+
+/* META */
+.lap-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.lap-meta span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.lap-meta i { font-size: 12px; }
+
+/* DESC */
+.lap-desc { font-size: 13px; color: #6b7280; line-height: 1.7; margin: 0 0 14px; }
+
+/* FOOTER */
+.lap-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid #f9fafb;
+    flex-wrap: wrap;
+}
+
+.lap-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.lap-actions { display: flex; gap: 8px; }
+
+.btn-detail {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: white;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.btn-detail:hover { background: #f9fafb; border-color: #9ca3af; color: var(--text); }
+
+.btn-respon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, var(--g1), var(--g2));
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: .2s;
+    box-shadow: 0 3px 10px rgba(10,127,46,.2);
+}
+
+.btn-respon:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(10,127,46,.28); color: white; }
+
+/* =============================================
+   EMPTY STATE
+============================================= */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 20px;
+    border: 1px dashed #d1d5db;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.empty-icon {
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; color: #d1d5db;
+    margin-bottom: 16px;
+}
+
+.empty-state h5 { font-size: 17px; font-weight: 700; color: #374151; margin: 0 0 6px; }
+.empty-state p  { font-size: 13px; color: #9ca3af; margin: 0; }
+
+/* =============================================
+   RESPONSIVE
+============================================= */
+@media (max-width: 768px) {
+    .kl { gap: 12px; }
+    .kl-header { padding: 14px 16px; border-radius: 14px; }
+    .kl-header-icon { width: 38px; height: 38px; font-size: 17px; }
+    .kl-title { font-size: 16px; }
+    .kl-header-stats { display: none; }
+
+    .kl-filter { padding: 14px; border-radius: 14px; }
+    .filter-row { flex-direction: column; align-items: stretch; }
+    .filter-select { min-width: unset; width: 100%; }
+    .filter-input  { width: 100%; }
+    .btn-filter, .btn-reset { width: 100%; justify-content: center; }
+
+    .lap-body { padding: 14px; }
+    .lap-top  { flex-direction: column; align-items: flex-start; }
+    .lap-footer { flex-direction: column; align-items: flex-start; }
+    .lap-actions { width: 100%; }
+    .btn-detail, .btn-respon { flex: 1; justify-content: center; }
+}
+
+</style>
+
+<div class="kl">
+
+    {{-- HEADER FIX --}}
+    <div class="kl-header">
+        <div class="kl-header-left">
+            <div class="kl-header-icon">
+                <i class="bi bi-journal-text"></i>
+            </div>
+            <div>
+                <h3 class="kl-title">Kelola Laporan</h3>
+                <p class="kl-sub">Kelola seluruh laporan siswa secara realtime</p>
+            </div>
         </div>
 
-        <div class="topbar-right">
-
-            <!-- DATE -->
-            <div class="date-box">
-                <i class="bi bi-calendar3"></i>
-
-                {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
+        <div class="kl-header-stats">
+            @php
+    $total   = $laporan->count();
+    $pending = \App\Models\Pengaduan::where('status','pending')->count();
+    $proses  = \App\Models\Pengaduan::where('status','proses')->count();
+    $selesai = \App\Models\Pengaduan::where('status','selesai')->count();
+@endphp
+            <div class="hstat">
+                <span class="hstat-num" style="color:var(--g1)">{{ $total }}</span>
+                <span class="hstat-label">Total</span>
             </div>
-
-            <!-- NOTIF -->
-            <div class="notif-box position-relative">
-
-                <i class="bi bi-bell"></i>
-
-                <span class="notif-badge">
-                    {{ \App\Models\Pengaduan::where('status','pending')->count() }}
-                </span>
-
+            <div class="hstat-sep"></div>
+            <div class="hstat">
+                <span class="hstat-num" style="color:#dc2626">{{ $pending }}</span>
+                <span class="hstat-label">Pending</span>
             </div>
-
-            <!-- PROFILE -->
-            <img src="{{ auth()->user()->foto
-                ? asset('storage/' . auth()->user()->foto)
-                : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}"
-                class="top-profile">
-
+            <div class="hstat-sep"></div>
+            <div class="hstat">
+                <span class="hstat-num" style="color:#d97706">{{ $proses }}</span>
+                <span class="hstat-label">Proses</span>
+            </div>
+            <div class="hstat-sep"></div>
+            <div class="hstat">
+                <span class="hstat-num" style="color:#2563eb">{{ $selesai }}</span>
+                <span class="hstat-label">Selesai</span>
+            </div>
         </div>
-
     </div>
 
-    <!-- FILTER -->
-    <form method="GET" action="{{ route('guru.laporan') }}">
+    {{-- FILTER FIX --}}
+    <form method="GET" action="{{ route('guru.laporan') }}" class="kl-filter">
+        <div class="filter-row">
+            <select name="kategori" class="filter-select">
+                <option value="">Semua Kategori</option>
+                <option value="Bullying"   {{ request('kategori')=='Bullying'   ? 'selected':'' }}>🛡️ Bullying</option>
+                <option value="Fasilitas"  {{ request('kategori')=='Fasilitas'  ? 'selected':'' }}>🏫 Fasilitas</option>
+                <option value="Akademik"   {{ request('kategori')=='Akademik'   ? 'selected':'' }}>📚 Akademik</option>
+                <option value="Kekerasan"  {{ request('kategori')=='Kekerasan'  ? 'selected':'' }}>⚠️ Kekerasan</option>
+                <option value="Lainnya"    {{ request('kategori')=='Lainnya'    ? 'selected':'' }}>💬 Lainnya</option>
+            </select>
 
-        <div class="filter-card">
+            <select name="status" class="filter-select">
+                <option value="">Semua Status</option>
+                <option value="pending" {{ request('status')=='pending' ? 'selected':'' }}>Pending</option>
+                <option value="proses"  {{ request('status')=='proses'  ? 'selected':'' }}>Proses</option>
+                <option value="selesai" {{ request('status')=='selesai' ? 'selected':'' }}>Selesai</option>
+            </select>
 
-            <div class="row g-3">
+            <input type="text" name="search" value="{{ request('search') }}"
+                   class="filter-input" placeholder="🔍 Cari judul atau nama siswa...">
 
-                <!-- KATEGORI -->
-                <div class="col-md-4">
+            <button type="submit" class="btn-filter">
+                <i class="bi bi-funnel-fill"></i> Filter
+            </button>
 
-                    <select name="kategori"
-                            class="form-select modern-select">
-
-                        <option value="">Semua Kategori</option>
-
-                        <option value="Bullying"
-                            {{ request('kategori') == 'Bullying' ? 'selected' : '' }}>
-                            Bullying
-                        </option>
-
-                        <option value="Fasilitas"
-                            {{ request('kategori') == 'Fasilitas' ? 'selected' : '' }}>
-                            Fasilitas
-                        </option>
-
-                        <option value="Akademik"
-                            {{ request('kategori') == 'Akademik' ? 'selected' : '' }}>
-                            Akademik
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <!-- STATUS -->
-                <div class="col-md-4">
-
-                    <select name="status"
-                            class="form-select modern-select">
-
-                        <option value="">Semua Status</option>
-
-                        <option value="pending"
-                            {{ request('status') == 'pending' ? 'selected' : '' }}>
-                            Pending
-                        </option>
-
-                        <option value="proses"
-                            {{ request('status') == 'proses' ? 'selected' : '' }}>
-                            Proses
-                        </option>
-
-                        <option value="selesai"
-                            {{ request('status') == 'selesai' ? 'selected' : '' }}>
-                            Selesai
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <!-- SEARCH -->
-                <div class="col-md-4">
-
-                    <input type="text"
-                           name="search"
-                           value="{{ request('search') }}"
-                           class="form-control modern-input"
-                           placeholder="Cari laporan...">
-
-                </div>
-
-            </div>
-
-            <!-- BUTTON -->
-            <div class="mt-3 d-flex gap-2">
-
-                <button class="btn btn-success">
-                    <i class="bi bi-search"></i>
-                    Filter
-                </button>
-
-                <a href="{{ route('guru.laporan') }}"
-                   class="btn btn-light border">
-
-                    Reset
-
-                </a>
-
-            </div>
-
+            <a href="{{ route('guru.laporan') }}" class="btn-reset">
+                <i class="bi bi-arrow-counterclockwise"></i> Reset
+            </a>
         </div>
 
+        {{-- Active filter pills --}}
+        @if(request('kategori') || request('status') || request('search'))
+        <div class="active-filters">
+            @if(request('kategori'))
+                <span class="filter-pill"><i class="bi bi-tag-fill"></i> {{ request('kategori') }}</span>
+            @endif
+            @if(request('status'))
+                <span class="filter-pill"><i class="bi bi-circle-fill" style="font-size:7px"></i> {{ ucfirst(request('status')) }}</span>
+            @endif
+            @if(request('search'))
+                <span class="filter-pill"><i class="bi bi-search"></i> "{{ request('search') }}"</span>
+            @endif
+        </div>
+        @endif
     </form>
 
-    <!-- SCROLL AREA -->
-    <div class="laporan-scroll">
+    {{-- SCROLL --}}
+    <div class="kl-scroll">
 
-        <!-- LIST LAPORAN -->
-        <div class="laporan-wrapper">
+        <div class="result-info">
+            <span class="result-count">
+                {{ $laporan->count() }} laporan ditemukan
+            </span>
+        </div>
+
+        <div class="laporan-list">
 
             @forelse($laporan as $item)
 
-            <div class="laporan-card">
+            <div class="lap-card">
 
-                <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                {{-- ACCENT --}}
+                <div class="lap-accent
+                    @if($item->status=='pending') acc-pending
+                    @elseif($item->status=='proses') acc-proses
+                    @else acc-selesai
+                    @endif
+                "></div>
 
-                    <!-- LEFT -->
-                    <div class="laporan-content">
+                {{-- BODY --}}
+                <div class="lap-body">
 
-                        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-
-                            <h5 class="fw-bold mb-0">
-                                {{ $item->judul }}
-                            </h5>
-
-                            <!-- BADGE -->
-                            @if($item->kategori == 'Bullying')
-
-                                <span class="badge bg-danger-subtle text-danger">
-                                    {{ $item->kategori }}
-                                </span>
-
-                            @elseif($item->kategori == 'Fasilitas')
-
-                                <span class="badge bg-primary-subtle text-primary">
-                                    {{ $item->kategori }}
-                                </span>
-
-                            @else
-
-                                <span class="badge bg-success-subtle text-success">
-                                    {{ $item->kategori }}
-                                </span>
-
-                            @endif
-
+                    <div class="lap-top">
+                        <div>
+                            <div class="lap-title-row">
+                                <h5 class="lap-title">{{ $item->judul }}</h5>
+                                @php
+                                    $katClass = match(strtolower($item->kategori ?? '')) {
+                                        'bullying'  => 'kat-bullying',
+                                        'fasilitas' => 'kat-fasilitas',
+                                        'akademik'  => 'kat-akademik',
+                                        'kekerasan' => 'kat-kekerasan',
+                                        default     => 'kat-default',
+                                    };
+                                @endphp
+                                <span class="kat-pill {{ $katClass }}">{{ $item->kategori ?? 'Laporan' }}</span>
+                            </div>
                         </div>
 
-                        <!-- META -->
-                        <div class="laporan-meta">
-
-                            <span>
-                                <i class="bi bi-person"></i>
-                                {{ $item->user->name ?? 'Siswa' }}
-                            </span>
-
-                            <span>
-                                <i class="bi bi-calendar"></i>
-                                {{ $item->created_at->format('d M Y') }}
-                            </span>
-
-                        </div>
-
-                        <!-- DESC -->
-                        <p class="laporan-desc">
-
-                            {{ \Illuminate\Support\Str::limit($item->deskripsi, 150) }}
-
-                        </p>
-
-                    </div>
-
-                    <!-- STATUS -->
-                    <div>
-
-                        @if($item->status == 'selesai')
-
-                            <span class="status-badge status-success">
-                                <i class="bi bi-check-circle"></i>
-                                Selesai
-                            </span>
-
-                        @elseif($item->status == 'proses')
-
-                            <span class="status-badge status-warning">
-                                <i class="bi bi-clock-history"></i>
-                                Dalam Proses
-                            </span>
-
+                        @if($item->status=='selesai')
+                            <span class="s-badge s-selesai"><i class="bi bi-check-circle-fill"></i> Selesai</span>
+                        @elseif($item->status=='proses')
+                            <span class="s-badge s-proses"><i class="bi bi-clock-history"></i> Diproses</span>
                         @else
-
-                            <span class="status-badge status-danger">
-                                <i class="bi bi-exclamation-circle"></i>
-                                Pending
-                            </span>
-
+                            <span class="s-badge s-pending"><i class="bi bi-exclamation-circle-fill"></i> Pending</span>
                         @endif
-
                     </div>
 
-                </div>
+                    <div class="lap-meta">
+                        <span><i class="bi bi-person-fill"></i> {{ $item->user->name ?? 'Siswa' }}</span>
+                        <span><i class="bi bi-calendar3"></i> {{ $item->created_at->format('d M Y') }}</span>
+                        <span><i class="bi bi-clock"></i> {{ $item->created_at->diffForHumans() }}</span>
+                    </div>
 
-                <!-- FOOTER -->
-                <div class="laporan-footer">
+                    <p class="lap-desc">{{ \Illuminate\Support\Str::limit($item->deskripsi, 150) }}</p>
 
-                    <div class="laporan-info">
-
-                        <span>
-                            <i class="bi bi-building"></i>
-
+                    <div class="lap-footer">
+                        <div class="lap-location">
+                            <i class="bi bi-geo-alt"></i>
                             {{ $item->lokasi ?? 'SMKN 2 Marabahan' }}
-                        </span>
-
-                    </div>
-
-                    <div class="laporan-action">
-
-                        <a href="{{ route('pengaduan.show', $item->id) }}"
-                            class="btn btn-outline-success">
-
-                            <i class="bi bi-eye"></i>
-                            Detail
-
-                        </a>
-
-                        <a href="{{ route('guru.respon', $item->id) }}"
-                            class="btn btn-success">
-
-                            <i class="bi bi-reply"></i>
-                            Tanggapi
-
-                        </a>
-
+                        </div>
+                        <div class="lap-actions">
+                            <a href="{{ route('pengaduan.show', $item->id) }}" class="btn-detail">
+                                <i class="bi bi-eye"></i> Detail
+                            </a>
+                            <a href="{{ route('guru.respon', $item->id) }}" class="btn-respon">
+                                <i class="bi bi-reply-fill"></i> Tanggapi
+                            </a>
+                        </div>
                     </div>
 
                 </div>
@@ -280,481 +616,24 @@
             @empty
 
             <div class="empty-state">
-
-                <i class="bi bi-inbox"></i>
-
-                <h5 class="mt-3">
-                    Belum Ada Laporan
-                </h5>
-
-                <small class="text-muted">
-                    Laporan siswa akan muncul di sini
-                </small>
-
+                <div class="empty-icon"><i class="bi bi-inbox"></i></div>
+                <h5>Belum Ada Laporan</h5>
+                <p>Laporan siswa akan muncul di sini</p>
             </div>
 
             @endforelse
 
         </div>
 
+        {{-- PAGINATION --}}
+       @if(method_exists($laporan, 'hasPages') && $laporan->hasPages())
+        <div style="margin-top:20px;">
+            {{ $laporan->withQueryString()->links() }}
+        </div>
+        @endif
+
     </div>
 
 </div>
-
-<style>
-
-/* =========================================================
-   ROOT
-========================================================= */
-
-:root{
-    --bg:#f6f8fb;
-    --surface:#ffffff;
-    --border:#e8edf3;
-
-    --text-1:#1f2937;
-    --text-2:#4b5563;
-    --text-3:#9ca3af;
-
-    --green:#2f6f57;
-    --green-soft:#edf5f1;
-
-    --red:#c65b5b;
-    --red-soft:#fdf1f1;
-
-    --orange:#c79b46;
-    --orange-soft:#fbf6eb;
-
-    --blue:#5d7fa3;
-    --blue-soft:#eff4f8;
-
-    --shadow:
-    0 1px 2px rgba(15,23,42,.02),
-    0 8px 18px rgba(15,23,42,.03);
-}
-
-/* =========================================================
-   GLOBAL FIX
-========================================================= */
-
-html,
-body{
-    height:100%;
-    overflow:hidden;
-    background:var(--bg);
-}
-
-.content{
-    height:calc(100vh - 70px);
-    overflow:hidden;
-}
-
-/* =========================================================
-   PAGE
-========================================================= */
-
-.laporan-page{
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-    overflow:hidden;
-}
-
-/* =========================================================
-   TOPBAR
-========================================================= */
-
-.topbar{
-    background:#fff;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:18px 22px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    box-shadow:var(--shadow);
-
-    flex-shrink:0;
-}
-
-/* TITLE */
-
-.topbar h3{
-    font-size:22px;
-    font-weight:600;
-    margin-bottom:2px;
-}
-
-.topbar small{
-    color:var(--text-3);
-    font-size:12px;
-}
-
-.topbar-right{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-/* DATE */
-
-.date-box{
-    height:38px;
-    padding:0 14px;
-
-    border:1px solid var(--border);
-    border-radius:10px;
-
-    background:#fafbfc;
-
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-    font-size:12px;
-    color:var(--text-2);
-}
-
-/* NOTIF */
-
-.notif-box{
-    width:38px;
-    height:38px;
-
-    border:1px solid var(--border);
-    border-radius:10px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:#fff;
-
-    position:relative;
-
-    font-size:16px;
-    color:var(--text-2);
-}
-
-.notif-badge{
-    position:absolute;
-    top:-4px;
-    right:-4px;
-
-    width:16px;
-    height:16px;
-
-    border-radius:50%;
-
-    background:#dc3545;
-    color:white;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:9px;
-}
-
-/* PROFILE */
-
-.top-profile{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    object-fit:cover;
-}
-
-/* =========================================================
-   FILTER
-========================================================= */
-
-.filter-card{
-    background:#fff;
-    border:1px solid var(--border);
-    border-radius:12px;
-
-    padding:18px;
-
-    box-shadow:var(--shadow);
-
-    flex-shrink:0;
-}
-
-/* INPUT */
-
-.modern-select,
-.modern-input{
-    height:42px;
-
-    border:1px solid var(--border);
-    border-radius:10px;
-
-    font-size:13px;
-
-    box-shadow:none !important;
-}
-
-.modern-select:focus,
-.modern-input:focus{
-    border-color:#bfd7ca;
-}
-
-/* =========================================================
-   SCROLL AREA
-========================================================= */
-
-.laporan-scroll{
-    flex:1;
-
-    overflow-y:auto;
-    overflow-x:hidden;
-
-    padding-right:4px;
-    padding-bottom:20px;
-
-    scrollbar-width:thin;
-}
-
-.laporan-scroll::-webkit-scrollbar{
-    width:7px;
-}
-
-.laporan-scroll::-webkit-scrollbar-thumb{
-    background:#d1d5db;
-    border-radius:20px;
-}
-
-/* =========================================================
-   WRAPPER
-========================================================= */
-
-.laporan-wrapper{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-}
-
-/* =========================================================
-   CARD
-========================================================= */
-
-.laporan-card{
-    background:#fff;
-
-    border:1px solid var(--border);
-    border-radius:12px;
-
-    padding:18px;
-
-    transition:.2s;
-
-    box-shadow:var(--shadow);
-}
-
-.laporan-card:hover{
-    transform:translateY(-2px);
-}
-
-/* TITLE */
-
-.laporan-card h5{
-    font-size:17px;
-    font-weight:600;
-    margin:0;
-}
-
-/* BADGE */
-
-.badge{
-    font-size:10px !important;
-    font-weight:500 !important;
-
-    padding:5px 9px;
-
-    border-radius:8px;
-}
-
-/* META */
-
-.laporan-meta{
-    display:flex;
-    align-items:center;
-    gap:14px;
-
-    flex-wrap:wrap;
-
-    margin-top:8px;
-
-    font-size:12px;
-    color:var(--text-3);
-}
-
-/* DESC */
-
-.laporan-desc{
-    margin-top:12px;
-    margin-bottom:0;
-
-    font-size:13px;
-    line-height:1.6;
-
-    color:var(--text-2);
-
-    max-width:760px;
-}
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-.status-badge{
-    padding:6px 11px;
-
-    border-radius:8px;
-
-    font-size:11px;
-    font-weight:500;
-
-    display:flex;
-    align-items:center;
-    gap:5px;
-}
-
-.status-warning{
-    background:var(--orange-soft);
-    color:var(--orange);
-}
-
-.status-success{
-    background:var(--green-soft);
-    color:var(--green);
-}
-
-.status-danger{
-    background:var(--red-soft);
-    color:var(--red);
-}
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.laporan-footer{
-    margin-top:16px;
-    padding-top:14px;
-
-    border-top:1px solid #f1f3f5;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    flex-wrap:wrap;
-    gap:12px;
-}
-
-/* INFO */
-
-.laporan-info{
-    font-size:12px;
-    color:var(--text-3);
-}
-
-/* =========================================================
-   BUTTON
-========================================================= */
-
-.laporan-action{
-    display:flex;
-    gap:8px;
-}
-
-.btn{
-    border-radius:8px !important;
-
-    padding:7px 13px;
-
-    font-size:12px;
-    font-weight:500;
-}
-
-/* =========================================================
-   EMPTY
-========================================================= */
-
-.empty-state{
-    background:#fff;
-
-    border:1px solid var(--border);
-    border-radius:12px;
-
-    padding:50px 20px;
-
-    text-align:center;
-
-    box-shadow:var(--shadow);
-}
-
-.empty-state i{
-    font-size:52px;
-    color:#cbd5e1;
-}
-
-.empty-state h5{
-    font-size:18px;
-    font-weight:600;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:768px){
-
-    html,
-    body{
-        overflow:auto;
-    }
-
-    .content{
-        height:auto;
-        overflow:visible;
-    }
-
-    .laporan-page{
-        height:auto;
-    }
-
-    .laporan-scroll{
-        overflow:visible;
-        padding-bottom:30px;
-    }
-
-    .topbar{
-        flex-direction:column;
-        align-items:flex-start;
-        gap:14px;
-    }
-
-    .laporan-footer{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-    .laporan-action{
-        width:100%;
-    }
-
-    .laporan-action .btn{
-        flex:1;
-    }
-
-}
-
-</style>
 
 @endsection

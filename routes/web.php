@@ -44,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/upload-foto',
         [UserController::class, 'uploadFoto']);
+    
+    Route::post('/profil/ganti-password', [UserController::class, 'gantiPassword'])
+        ->name('profil.gantiPassword');
 
     /*
     |--------------------------------------------------------------------------
@@ -118,6 +121,8 @@ Route::middleware(['auth','guru'])->group(function () {
     Route::get('/guru/respon/{id}/edit',
         [PengaduanController::class, 'edit'])
         ->name('laporan.edit');
+    
+    
 
     /*
     |------------------------------------------------------------------
@@ -148,6 +153,8 @@ Route::middleware(['auth','guru'])->group(function () {
 
     Route::delete('/kelola-user/delete/{id}',
     [   GuruUserController::class, 'destroy']); 
+
+    
 
     
     /*
